@@ -1,0 +1,1920 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MyPanelExpress API",
+    "description": "API du site vitrine MyPanelExpress",
+    "version": "v1"
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Connexion de l'administrateur.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Renvoie l'utilisateur authentifié par le token.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Envoie un message à l'entreprise.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/horaires": {
+      "get": {
+        "tags": [
+          "Horaires"
+        ],
+        "summary": "Les jours visibles, du lundi au dimanche. Site public.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HoraireDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Horaires"
+        ],
+        "summary": "Enregistre la grille complète en une seule transaction : un jour incohérent fait échouer\r\ntout l'enregistrement.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UpdateHoraire"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HoraireDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/horaires/admin": {
+      "get": {
+        "tags": [
+          "Horaires"
+        ],
+        "summary": "Les sept jours, masqués compris. Back-office.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HoraireDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/horaires/{id}": {
+      "put": {
+        "tags": [
+          "Horaires"
+        ],
+        "summary": "Modifie un seul jour.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHoraire"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HoraireDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/upload": {
+      "post": {
+        "tags": [
+          "Media"
+        ],
+        "summary": "Envoie une image, la convertit en webp et renvoie sa clé + son URL.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "modelName": {
+                    "type": "string",
+                    "default": "realisations"
+                  },
+                  "type": {
+                    "type": "string",
+                    "default": "images"
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                },
+                "modelName": {
+                  "style": "form"
+                },
+                "type": {
+                  "style": "form"
+                },
+                "id": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/url": {
+      "get": {
+        "tags": [
+          "Media"
+        ],
+        "summary": "Régénère une URL présignée à partir d'une clé stockée en base.",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media": {
+      "delete": {
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations": {
+      "get": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Les réalisations visibles, éventuellement filtrées par catégorie. Site public.",
+        "parameters": [
+          {
+            "name": "categorie",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Crée une réalisation. Les images s'ajoutent ensuite, via POST {id}/images.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRealisation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Modifie une réalisation. N'affecte pas ses images.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRealisation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/recentes": {
+      "get": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Les dernières réalisations visibles, pour la page d'accueil. Site public.",
+        "parameters": [
+          {
+            "name": "nombre",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 6
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/{id}": {
+      "get": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Une réalisation visible. Renvoie 404 si elle est masquée. Site public.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Supprime définitivement une réalisation, ses images et les fichiers correspondants sur\r\nMinIO. Irréversible : pour retirer temporairement un projet du site, utiliser PATCH\r\n{id}/visibilite.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/admin": {
+      "get": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Toutes les réalisations, masquées comprises. Back-office.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/admin/{id}": {
+      "get": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Une réalisation, masquée ou non. Back-office.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/{id}/visibilite": {
+      "patch": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Masque ou réaffiche une réalisation, sans la supprimer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetVisibilite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/{id}/images": {
+      "post": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Ajoute une ou plusieurs images à la fin de la galerie.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "files": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/{id}/images/{imageId}": {
+      "delete": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Supprime une image de la galerie, et le fichier sur MinIO.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/realisations/{id}/images/ordre": {
+      "put": {
+        "tags": [
+          "Realisations"
+        ],
+        "summary": "Réordonne la galerie. Le corps doit contenir toutes les images de la réalisation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ImageOrdre"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealisationDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Les services visibles, triés par ordre d'affichage. Site public.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Crée un service. Les images s'ajoutent ensuite, via POST {id}/images.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateService"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Modifie un service. N'affecte pas ses images.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateService"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Un service visible. Renvoie 404 s'il est masqué. Site public.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Supprime définitivement un service, ses images et les fichiers correspondants sur MinIO.\r\nIrréversible : pour retirer temporairement une fiche du site, utiliser PATCH\r\n{id}/visibilite.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/admin": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Tous les services, masqués compris. Back-office.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/admin/{id}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Un service, masqué ou non. Back-office.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/visibilite": {
+      "patch": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Masque ou réaffiche un service, sans le supprimer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetVisibilite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/images": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Ajoute une ou plusieurs images à la fin de la galerie.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "files": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/images/{imageId}": {
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Supprime une image de la galerie, et le fichier sur MinIO.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/images/ordre": {
+      "put": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Réordonne la galerie. Le corps doit contenir toutes les images du service.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ImageOrdre"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateContactMessage": {
+        "required": [
+          "email",
+          "message",
+          "nom",
+          "sujet"
+        ],
+        "type": "object",
+        "properties": {
+          "nom": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "societe": {
+            "maxLength": 128,
+            "type": "string",
+            "nullable": true
+          },
+          "telephone": {
+            "maxLength": 32,
+            "type": "string",
+            "format": "tel",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "sujet": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "website": {
+            "type": "string",
+            "description": "Pot de miel anti-spam : champ caché côté formulaire, qu'un humain ne remplit jamais.\r\nS'il est rempli, on renvoie un succès sans envoyer le mail — le robot ne doit pas\r\napprendre qu'il a été détecté.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateRealisation": {
+        "required": [
+          "categorie",
+          "dateRealisation",
+          "description",
+          "titre"
+        ],
+        "type": "object",
+        "properties": {
+          "titre": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "categorie": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateRealisation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateService": {
+        "required": [
+          "description",
+          "nom"
+        ],
+        "type": "object",
+        "properties": {
+          "nom": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "avantages": {
+            "maxLength": 2000,
+            "type": "string",
+            "description": "Avantages du service, un par ligne.",
+            "nullable": true
+          },
+          "ordre": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DayOfWeek": {
+        "enum": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "type": "string"
+      },
+      "HoraireDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jourSemaine": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          },
+          "heureOuverture": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          },
+          "heureFermeture": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          },
+          "ferme": {
+            "type": "boolean"
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HoraireDetailsListResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HoraireDetails"
+            },
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "HoraireDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/HoraireDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "ImageOrdre": {
+        "required": [
+          "imageId"
+        ],
+        "type": "object",
+        "properties": {
+          "imageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ordre": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nouvelle position d'une image dans une galerie. Partagé par les réalisations et les services :\r\nl'administrateur renvoie la liste complète des images du parent, dans l'ordre voulu."
+      },
+      "LoginResponse": {
+        "required": [
+          "expiresAt",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDetails"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginResponseResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginResponse"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "MediaDetails": {
+        "required": [
+          "key",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Une image stockée sur MinIO. La base ne conserve que MyPanelExpress.Models.MediaDetails.Key ; l'URL est\r\n(re)calculée à la lecture, car les liens présignés expirent."
+      },
+      "MediaDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MediaDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "ObjectResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "RealisationDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titre": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categorie": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateRealisation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealisationImageDetails"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RealisationDetailsListResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealisationDetails"
+            },
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "RealisationDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RealisationDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "RealisationImageDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "objectKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "ordre": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Une image d'une réalisation, telle qu'elle est renvoyée au client. MyPanelExpress.Models.RealisationImageDetails.Url est\r\nprésignée et n'est pas stockée en base : c'est le service qui la remplit à la lecture."
+      },
+      "ServiceDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "avantages": {
+            "type": "string",
+            "nullable": true
+          },
+          "ordre": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceImageDetails"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServiceDetailsListResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceDetails"
+            },
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "ServiceDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ServiceDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "ServiceImageDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "objectKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "ordre": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Une image d'un service. MyPanelExpress.Models.ServiceImageDetails.Url est présignée et remplie à la lecture par le\r\nservice : la base ne contient que la clé."
+      },
+      "SetVisibilite": {
+        "required": [
+          "visible"
+        ],
+        "type": "object",
+        "properties": {
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Masquer ou réafficher un contenu sans le supprimer. Partagé par les réalisations et les\r\nservices : l'administrateur retire une fiche du site public en la rendant invisible."
+      },
+      "UpdateHoraire": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "heureOuverture": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          },
+          "heureFermeture": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          },
+          "ferme": {
+            "type": "boolean",
+            "description": "Jour de fermeture : les heures sont alors ignorées et remises à null."
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modification d'un jour. Il n'y a pas de CreateHoraire : les sept jours sont créés par la\r\nmigration, l'administrateur ne fait que les modifier."
+      },
+      "UpdateRealisation": {
+        "required": [
+          "categorie",
+          "dateRealisation",
+          "description",
+          "id",
+          "titre"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titre": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "categorie": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateRealisation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateService": {
+        "required": [
+          "description",
+          "id",
+          "nom"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "avantages": {
+            "maxLength": 2000,
+            "type": "string",
+            "nullable": true
+          },
+          "ordre": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDetails": {
+        "required": [
+          "email",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
+      "UserLogin": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Saisir 'Bearer' [espace] puis le token. Exemple : \"Bearer 12345abcdef\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

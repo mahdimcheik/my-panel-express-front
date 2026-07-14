@@ -1,0 +1,32 @@
+{
+  "/auth": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/contact": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/horaires": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/media": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/realisations": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/services": {
+    "target": "https://localhost:7113",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
