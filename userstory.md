@@ -414,7 +414,7 @@ Menus :
 
 ## Frontend
 
-- Angular 21 (Standalone)
+- Angular 21
 - TypeScript
 - Tailwind CSS
 - primeng 21
