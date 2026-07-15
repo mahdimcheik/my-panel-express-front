@@ -15,15 +15,23 @@ import type { HoraireView, ImageRef, RealisationView, ServiceView, UserView } fr
 
 type ImageDetails = ServiceImageDetails | RealisationImageDetails;
 
+/** All images that carry a usable presigned URL, lowest `ordre` first. */
+function allImages(
+  images: readonly ImageDetails[] | null | undefined,
+  alt: string,
+): ImageRef[] {
+  return [...(images ?? [])]
+    .sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0))
+    .filter((i): i is ImageDetails & { url: string } => typeof i.url === 'string' && i.url.length > 0)
+    .map((i) => ({ url: i.url, objectKey: i.objectKey ?? null, alt }));
+}
+
 /** Picks the lowest-`ordre` image that actually carries a usable presigned URL. */
 function firstImage(
   images: readonly ImageDetails[] | null | undefined,
   alt: string,
 ): ImageRef | null {
-  const withUrl = [...(images ?? [])]
-    .sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0))
-    .find((i): i is ImageDetails & { url: string } => typeof i.url === 'string' && i.url.length > 0);
-  return withUrl ? { url: withUrl.url, objectKey: withUrl.objectKey ?? null, alt } : null;
+  return allImages(images, alt)[0] ?? null;
 }
 
 /** Trims a .NET `"09:00:00"` time to `"09:00"`. */
@@ -50,12 +58,14 @@ export const DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 
 export function toServiceView(dto: ServiceDetails): ServiceView {
   const nom = dto.nom?.trim() ?? '';
+  const images = allImages(dto.images, nom ? `صورة لخدمة ${nom}` : '');
   return {
     id: dto.id ?? '',
     nom: nom || 'خدمة',
     description: dto.description?.trim() ?? '',
     avantages: splitLines(dto.avantages),
-    image: firstImage(dto.images, nom ? `صورة لخدمة ${nom}` : ''),
+    image: images[0] ?? null,
+    images,
     ordre: dto.ordre ?? 0,
   };
 }
@@ -113,6 +123,7 @@ export function serviceFallbackToView(f: ServiceFallback): ServiceView {
     description: f.description,
     avantages: f.avantages,
     image: null,
+    images: [],
     ordre: 0,
   };
 }

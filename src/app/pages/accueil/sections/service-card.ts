@@ -1,19 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RemoteImage } from '../../../shared/ui/remote-image/remote-image';
+import { ImageCarousel } from '../../../shared/ui/image-carousel/image-carousel';
 import { Icon } from '../../../shared/ui/icon/icon';
 import type { ServiceView } from '../../../core/data/view-models';
 
 @Component({
   selector: 'app-service-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RemoteImage, Icon],
+  imports: [RouterLink, ImageCarousel, Icon],
   template: `
     <article class="flex h-full flex-col overflow-hidden rounded-card bg-white shadow-card">
       <div class="aspect-[4/3] bg-slate-100">
-        @if (service().image; as image) {
-          <app-remote-image [image]="image" />
-        }
+        <app-image-carousel [images]="service().images" [label]="'صور ' + service().nom" />
       </div>
       <div class="flex flex-1 flex-col p-5">
         <h3 class="text-lg font-bold text-brand-900">{{ service().nom }}</h3>

@@ -14,7 +14,10 @@ export interface ServiceView {
   readonly nom: string;
   readonly description: string;
   readonly avantages: readonly string[];
+  /** The first usable image, or `null`. Kept for structured data / single-image contexts. */
   readonly image: ImageRef | null;
+  /** All usable images, lowest `ordre` first, for the card carousel. */
+  readonly images: readonly ImageRef[];
   readonly ordre: number;
 }
 
