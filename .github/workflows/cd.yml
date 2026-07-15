@@ -1,0 +1,42 @@
+name: CD
+
+# Mirrors the BonProf pipeline: fires on version tags (git tag v1.0.0 && git push --tags).
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Build the front image
+      - name: Build the Docker image
+        run: |
+          docker build . \
+            --tag mahdimcheik/my-panel-express:${{ github.ref_name }} \
+            --tag mahdimcheik/my-panel-express:latest
+
+      # 2. Push to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Push image to Docker Hub
+        run: docker push --all-tags mahdimcheik/my-panel-express
+
+      # 3. SSH into the VPS and run the deploy steps
+      - name: Deploy on VPS via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/my-panel-express
+            docker pull mahdimcheik/my-panel-express:latest
+            docker compose up -d --force-recreate
