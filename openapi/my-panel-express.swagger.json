@@ -312,6 +312,53 @@
         }
       }
     },
+    "/parametres": {
+      "get": {
+        "tags": [
+          "Parametres"
+        ],
+        "summary": "Les paramètres du site. Site public.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParametresDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Parametres"
+        ],
+        "summary": "Modifie les paramètres du site. Back-office.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateParametres"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParametresDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/realisations": {
       "get": {
         "tags": [
@@ -1447,6 +1494,89 @@
         "additionalProperties": false,
         "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
       },
+      "ParametresDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nomEntreprise": {
+            "type": "string",
+            "nullable": true
+          },
+          "adresse": {
+            "type": "string",
+            "nullable": true
+          },
+          "telephones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "logo": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebook": {
+            "type": "string",
+            "nullable": true
+          },
+          "instagram": {
+            "type": "string",
+            "nullable": true
+          },
+          "whatsApp": {
+            "type": "string",
+            "nullable": true
+          },
+          "tikTok": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Vue en lecture des paramètres du site. Renvoyée au site public comme au back-office."
+      },
+      "ParametresDetailsResponse": {
+        "required": [
+          "message",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ParametresDetails"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Nombre total de lignes, pour les listes paginées.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Enveloppe renvoyée par tous les services. Le contrôleur la repasse telle quelle\r\nen JSON avec `StatusCode(response.Status, response)`."
+      },
       "RealisationDetails": {
         "type": "object",
         "properties": {
@@ -1746,6 +1876,55 @@
         },
         "additionalProperties": false,
         "description": "Modification d'un jour. Il n'y a pas de CreateHoraire : les sept jours sont créés par la\r\nmigration, l'administrateur ne fait que les modifier."
+      },
+      "UpdateParametres": {
+        "required": [
+          "adresse",
+          "nomEntreprise"
+        ],
+        "type": "object",
+        "properties": {
+          "nomEntreprise": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "adresse": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "telephones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Remplace intégralement la liste des numéros. Les entrées vides sont écartées.",
+            "nullable": true
+          },
+          "facebook": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "instagram": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "whatsApp": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "tikTok": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modification des paramètres du site. Pas de CreateParametres : la ligne unique est créée par la\r\nmigration, l'administrateur ne fait que la modifier. Pas d'Id non plus : il n'y a qu'une ligne."
       },
       "UpdateRealisation": {
         "required": [
