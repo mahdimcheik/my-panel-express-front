@@ -16,8 +16,8 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build . \
-            --tag mahdimcheik/my-panel-express:${{ github.ref_name }} \
-            --tag mahdimcheik/my-panel-express:latest
+            --tag mahdimcheik/mypanelexpress-client:${{ github.ref_name }} \
+            --tag mahdimcheik/mypanelexpress-client:latest
 
       # 2. Push to Docker Hub
       - name: Login to Docker Hub
@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Push image to Docker Hub
-        run: docker push --all-tags mahdimcheik/my-panel-express
+        run: docker push --all-tags mahdimcheik/mypanelexpress-client
 
       # 3. SSH into the VPS and run the deploy steps
       - name: Deploy on VPS via SSH
@@ -37,6 +37,6 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           script: |
-            cd ~/my-panel-express
-            docker pull mahdimcheik/my-panel-express:latest
+            cd ~/mypanelexpress/front-end
+            docker pull mahdimcheik/mypanelexpress-client:latest
             docker compose up -d --force-recreate

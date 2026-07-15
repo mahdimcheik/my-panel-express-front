@@ -3,7 +3,7 @@ services:
   # BonProf API container (container-api) over the shared global-network.
   web:
     build: .
-    image: mahdimcheik/my-panel-express:latest
+    image: mahdimcheik/mypanelexpress-client:latest
     container_name: container-mpe-web
     restart: always
     networks:
