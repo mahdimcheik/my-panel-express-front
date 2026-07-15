@@ -59,9 +59,8 @@ Fonctionnalités :
 - Connexion sécurisée
 - Gestion des réalisations
 - Gestion des services
-- Gestion des actualités
+- Gestion des actualités (plus tard)
 - Gestion des images
-- Modification des informations de contact
 - Gestion de la page d'accueil
 - Gestion des horaires
 

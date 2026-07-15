@@ -1,0 +1,108 @@
+import type {
+  HoraireDetails,
+  RealisationDetails,
+  RealisationImageDetails,
+  ServiceDetails,
+  ServiceImageDetails,
+} from '../api/models';
+import type {
+  ServiceFallback,
+  HoraireFallback,
+} from '../content/site-content.model';
+import { splitLines } from '../../shared/util/lines';
+import type { HoraireView, ImageRef, RealisationView, ServiceView } from './view-models';
+
+type ImageDetails = ServiceImageDetails | RealisationImageDetails;
+
+/** Picks the lowest-`ordre` image that actually carries a usable presigned URL. */
+function firstImage(
+  images: readonly ImageDetails[] | null | undefined,
+  alt: string,
+): ImageRef | null {
+  const withUrl = [...(images ?? [])]
+    .sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0))
+    .find((i): i is ImageDetails & { url: string } => typeof i.url === 'string' && i.url.length > 0);
+  return withUrl ? { url: withUrl.url, objectKey: withUrl.objectKey ?? null, alt } : null;
+}
+
+/** Trims a .NET `"09:00:00"` time to `"09:00"`. */
+function toHm(time: string | null | undefined): string | null {
+  if (!time) {
+    return null;
+  }
+  const [h, m] = time.split(':');
+  return h && m ? `${h}:${m}` : time;
+}
+
+const DAY_LABELS: Record<string, string> = {
+  Sunday: 'الأحد',
+  Monday: 'الاثنين',
+  Tuesday: 'الثلاثاء',
+  Wednesday: 'الأربعاء',
+  Thursday: 'الخميس',
+  Friday: 'الجمعة',
+  Saturday: 'السبت',
+};
+
+/** Monday → Sunday, the display order used across the site. */
+const DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+export function toServiceView(dto: ServiceDetails): ServiceView {
+  const nom = dto.nom?.trim() ?? '';
+  return {
+    id: dto.id ?? '',
+    nom: nom || 'خدمة',
+    description: dto.description?.trim() ?? '',
+    avantages: splitLines(dto.avantages),
+    image: firstImage(dto.images, nom ? `صورة لخدمة ${nom}` : ''),
+    ordre: dto.ordre ?? 0,
+  };
+}
+
+export function toRealisationView(dto: RealisationDetails): RealisationView {
+  const titre = dto.titre?.trim() ?? '';
+  const categorie = dto.categorie?.trim() || null;
+  const alt = titre ? (categorie ? `${titre} – ${categorie}` : titre) : '';
+  return {
+    id: dto.id ?? '',
+    titre: titre || 'مشروع',
+    description: dto.description?.trim() ?? '',
+    categorie,
+    date: dto.dateRealisation ?? null,
+    image: firstImage(dto.images, alt),
+  };
+}
+
+export function toHoraireView(dto: HoraireDetails): HoraireView {
+  const jour = dto.jourSemaine ?? 'Monday';
+  const ferme = dto.ferme ?? false;
+  const opens = toHm(dto.heureOuverture);
+  const closes = toHm(dto.heureFermeture);
+  return {
+    jour,
+    libelle: DAY_LABELS[jour] ?? jour,
+    ferme,
+    plage: !ferme && opens && closes ? `${opens} – ${closes}` : null,
+  };
+}
+
+export function sortHoraires(views: readonly HoraireView[]): HoraireView[] {
+  return [...views].sort((a, b) => DAY_ORDER.indexOf(a.jour) - DAY_ORDER.indexOf(b.jour));
+}
+
+// --- Fallback (static content) → view mappers ---
+
+export function serviceFallbackToView(f: ServiceFallback): ServiceView {
+  return {
+    id: f.id,
+    nom: f.nom,
+    description: f.description,
+    avantages: f.avantages,
+    image: null,
+    ordre: 0,
+  };
+}
+
+export function horaireFallbackToView(f: HoraireFallback): HoraireView {
+  return { jour: f.jour, libelle: f.libelle, ferme: f.ferme, plage: f.plage };
+}

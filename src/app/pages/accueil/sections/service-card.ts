@@ -1,0 +1,48 @@
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { RemoteImage } from '../../../shared/ui/remote-image/remote-image';
+import { Icon } from '../../../shared/ui/icon/icon';
+import type { ServiceView } from '../../../core/data/view-models';
+
+@Component({
+  selector: 'app-service-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RemoteImage, Icon],
+  template: `
+    <article class="flex h-full flex-col overflow-hidden rounded-card bg-white shadow-card">
+      <div class="aspect-[4/3] bg-slate-100">
+        @if (service().image; as image) {
+          <app-remote-image [image]="image" />
+        }
+      </div>
+      <div class="flex flex-1 flex-col p-5">
+        <h3 class="text-lg font-bold text-brand-900">{{ service().nom }}</h3>
+        @if (service().description) {
+          <p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ service().description }}</p>
+        }
+        @if (avantages().length) {
+          <ul class="mt-4 space-y-1.5 text-sm text-slate-700">
+            @for (avantage of avantages(); track avantage) {
+              <li class="flex items-center gap-2">
+                <span class="text-brand-600"><app-icon name="check" [size]="16" /></span>
+                <span>{{ avantage }}</span>
+              </li>
+            }
+          </ul>
+        }
+        <a
+          routerLink="/services"
+          class="mt-5 inline-flex items-center gap-1 self-start font-semibold text-brand-700 hover:text-brand-800"
+        >
+          اعرف المزيد
+          <span class="-scale-x-100"><app-icon name="arrow-left" [size]="18" /></span>
+        </a>
+      </div>
+    </article>
+  `,
+})
+export class ServiceCard {
+  readonly service = input.required<ServiceView>();
+
+  protected readonly avantages = computed(() => this.service().avantages.slice(0, 3));
+}
