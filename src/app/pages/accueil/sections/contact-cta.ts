@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Icon } from '../../../shared/ui/icon/icon';
-import type { ContactInfo } from '../../../core/content/site-content.model';
 
 @Component({
   selector: 'app-contact-cta',
@@ -26,11 +25,11 @@ import type { ContactInfo } from '../../../core/content/site-content.model';
             اتصل بنا
           </a>
           <a
-            [href]="'tel:' + contact().telephone"
+            [href]="'tel:' + telephone()"
             class="inline-flex items-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
           >
             <app-icon name="phone" [size]="18" />
-            <span dir="ltr">{{ contact().telephone }}</span>
+            <span dir="ltr">{{ telephone() }}</span>
           </a>
         </div>
       </div>
@@ -38,5 +37,6 @@ import type { ContactInfo } from '../../../core/content/site-content.model';
   `,
 })
 export class ContactCta {
-  readonly contact = input.required<ContactInfo>();
+  /** Primary phone number for the `tel:` shortcut. */
+  readonly telephone = input.required<string>();
 }

@@ -51,6 +51,12 @@ export const ADMIN_ROUTES: Routes = [
         title: 'أوقات العمل',
         loadComponent: () => import('./horaires/horaires-admin-page').then((m) => m.HorairesAdminPage),
       },
+      {
+        path: 'parametres',
+        title: 'إعدادات الموقع',
+        loadComponent: () =>
+          import('./parametres/parametres-admin-page').then((m) => m.ParametresAdminPage),
+      },
     ],
   },
 ];

@@ -19,6 +19,7 @@ const NAV: readonly AdminNavItem[] = [
   { label: 'الخدمات', icon: 'briefcase', link: '/admin/services' },
   { label: 'الأعمال', icon: 'image', link: '/admin/realisations' },
   { label: 'أوقات العمل', icon: 'clock', link: '/admin/horaires' },
+  { label: 'إعدادات الموقع', icon: 'settings', link: '/admin/parametres' },
 ];
 
 @Component({

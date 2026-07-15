@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { ParametresStore } from '../../core/data/parametres-store';
 import { HorairesStore } from '../../core/data/horaires-store';
 import { Icon } from '../../shared/ui/icon/icon';
 import { ContactForm } from './contact-form';
@@ -22,18 +22,20 @@ import { ContactForm } from './contact-form';
           <ul class="space-y-4">
             <li class="flex items-start gap-3">
               <span class="mt-0.5 text-brand-600"><app-icon name="map-pin" [size]="20" /></span>
-              <span class="text-slate-700">{{ contact.adresse }}</span>
+              <span class="text-slate-700">{{ params().adresse }}</span>
             </li>
-            <li class="flex items-center gap-3">
-              <span class="text-brand-600"><app-icon name="phone" [size]="20" /></span>
-              <a [href]="'tel:' + contact.telephone" class="text-slate-700 hover:text-brand-700" dir="ltr">
-                {{ contact.telephone }}
-              </a>
-            </li>
+            @for (tel of params().telephones; track tel) {
+              <li class="flex items-center gap-3">
+                <span class="text-brand-600"><app-icon name="phone" [size]="20" /></span>
+                <a [href]="'tel:' + tel" class="text-slate-700 hover:text-brand-700" dir="ltr">
+                  {{ tel }}
+                </a>
+              </li>
+            }
             <li class="flex items-center gap-3">
               <span class="text-brand-600"><app-icon name="mail" [size]="20" /></span>
-              <a [href]="'mailto:' + contact.email" class="text-slate-700 hover:text-brand-700" dir="ltr">
-                {{ contact.email }}
+              <a [href]="'mailto:' + params().email" class="text-slate-700 hover:text-brand-700" dir="ltr">
+                {{ params().email }}
               </a>
             </li>
           </ul>
@@ -69,6 +71,6 @@ import { ContactForm } from './contact-form';
   `,
 })
 export class ContactPage {
-  protected readonly contact = inject(SITE_CONTENT).contact;
+  protected readonly params = inject(ParametresStore).parametres;
   protected readonly horaires = inject(HorairesStore);
 }

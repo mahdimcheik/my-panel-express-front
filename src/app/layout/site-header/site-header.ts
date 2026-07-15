@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
-import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { ParametresStore } from '../../core/data/parametres-store';
 import { Icon } from '../../shared/ui/icon/icon';
 import { SiteNav } from '../site-nav/site-nav';
 
@@ -17,7 +17,7 @@ import { SiteNav } from '../site-nav/site-nav';
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <a routerLink="/" class="flex items-center gap-3" aria-label="الصفحة الرئيسية">
           <img ngSrc="/logo.svg" width="40" height="40" alt="" priority class="h-10 w-10" />
-          <span class="text-lg font-bold text-brand-900">{{ content.nomEntreprise }}</span>
+          <span class="text-lg font-bold text-brand-900">{{ params().nomEntreprise }}</span>
         </a>
 
         <nav class="hidden md:block" aria-label="التنقل الرئيسي">
@@ -72,6 +72,6 @@ import { SiteNav } from '../site-nav/site-nav';
   `,
 })
 export class SiteHeader {
-  protected readonly content = inject(SITE_CONTENT);
+  protected readonly params = inject(ParametresStore).parametres;
   protected readonly open = signal(false);
 }

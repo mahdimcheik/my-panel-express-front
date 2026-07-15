@@ -39,6 +39,29 @@ export interface HoraireView {
   readonly plage: string | null;
 }
 
+/** A social network the site links to. Matches the icon names in `IconName`. */
+export type SocialReseau = 'facebook' | 'instagram' | 'whatsapp' | 'tiktok' | 'linkedin';
+
+export interface SocialLinkView {
+  readonly reseau: SocialReseau;
+  readonly label: string;
+  readonly url: string;
+}
+
+/**
+ * The site's editable parameters, as the public site consumes them. Always resolved:
+ * live `/parametres` values fall back to the static {@link SiteContent} field by field.
+ */
+export interface ParametresView {
+  readonly nomEntreprise: string;
+  readonly adresse: string;
+  readonly telephones: readonly string[];
+  /** First phone, for `tel:` links and compact displays. Never empty. */
+  readonly telephone: string;
+  readonly email: string;
+  readonly socials: readonly SocialLinkView[];
+}
+
 /** The authenticated administrator, decoupled from the nullable `UserDetails` DTO. */
 export interface UserView {
   readonly id: string;

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { ParametresStore } from '../../core/data/parametres-store';
 import { SeoService } from '../../core/seo/seo.service';
 import { StructuredDataService } from '../../core/seo/structured-data.service';
 import { HeroSection } from './sections/hero-section';
@@ -11,23 +12,18 @@ import { ContactCta } from './sections/contact-cta';
 @Component({
   selector: 'app-accueil',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    HeroSection,
-    PresentationSection,
-    ServicesHighlight,
-    RealisationsRecentes,
-    ContactCta,
-  ],
+  imports: [HeroSection, PresentationSection, ServicesHighlight, RealisationsRecentes, ContactCta],
   template: `
     <app-hero-section [hero]="content.hero" />
     <app-presentation-section [presentation]="content.presentation" />
     <app-services-highlight [max]="content.accueil.maxServices" />
     <app-realisations-recentes [nombre]="content.accueil.nbRealisations" />
-    <app-contact-cta [contact]="content.contact" />
+    <app-contact-cta [telephone]="params().telephone ?? ''" />
   `,
 })
 export class Accueil {
   protected readonly content = inject(SITE_CONTENT);
+  protected readonly params = inject(ParametresStore).parametres;
   private readonly seo = inject(SeoService);
   private readonly structuredData = inject(StructuredDataService);
 

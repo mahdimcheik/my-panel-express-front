@@ -1,0 +1,63 @@
+services:
+  # Angular SPA served by nginx; also reverse-proxies API paths to `api`.
+  web:
+    build: .
+    image: mypanelexpress-web:latest
+    restart: always
+    networks:
+      - global-network   # so Nginx Proxy Manager (on this external net) can reach it
+      - internal         # so it can reach the api container
+    depends_on:
+      - api
+    # No `ports:` — public traffic comes only through Nginx Proxy Manager.
+
+  # ASP.NET API. Reachable only on the internal network; never exposed publicly.
+  api:
+    build:
+      # The API Dockerfile does `COPY ["BonProf/BonProf.csproj", ...]`, so the build
+      # context must be the SOLUTION root, and the Dockerfile lives one level down.
+      context: ../BonProfAPI       # adjust to the API repo path on the VPS
+      dockerfile: BonProf/Dockerfile
+    image: bonprof-api:latest
+    restart: always
+    env_file:
+      - ./api.env                  # all secrets/config live here (see api.env.example)
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - DB_HOST=db                 # point the API at the db service below
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8080"                     # visible to `web` only, not published on the host
+    networks:
+      - internal
+
+  # PostgreSQL for EF Core + Hangfire. Internal only.
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_NAME:-mainDB}
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:?set DB_PASSWORD in .env}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-mainDB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+networks:
+  # Shared with the running Nginx Proxy Manager stack.
+  global-network:
+    external: true
+  # Private link between web, api and db.
+  internal:
+
+volumes:
+  db-data:

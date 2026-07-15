@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { ParametresStore } from '../../core/data/parametres-store';
+import type { SocialReseau } from '../../core/data/view-models';
 import { AuthStore } from '../../core/auth/auth-store';
 import { Icon, type IconName } from '../../shared/ui/icon/icon';
 import { OpeningHours } from '../opening-hours/opening-hours';
@@ -14,10 +16,10 @@ import { OpeningHours } from '../opening-hours/opening-hours';
       <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p class="text-lg font-bold text-white">{{ content.nomEntreprise }}</p>
+            <p class="text-lg font-bold text-white">{{ params().nomEntreprise }}</p>
             <p class="mt-3 text-sm text-slate-300">{{ content.slogan }}</p>
             <ul class="mt-4 flex items-center gap-3">
-              @for (social of content.socials; track social.reseau) {
+              @for (social of params().socials; track social.reseau) {
                 <li>
                   <a
                     [href]="social.url"
@@ -64,23 +66,25 @@ import { OpeningHours } from '../opening-hours/opening-hours';
             <address class="mt-4 space-y-3 text-sm not-italic text-slate-300">
               <p class="flex items-start gap-2">
                 <app-icon name="map-pin" [size]="18" />
-                <span>{{ content.contact.adresse }}</span>
+                <span>{{ params().adresse }}</span>
               </p>
-              <p class="flex items-center gap-2">
-                <app-icon name="phone" [size]="18" />
-                <a
-                  [href]="'tel:' + content.contact.telephone"
-                  dir="ltr"
-                  class="transition-colors hover:text-white"
-                  >{{ content.contact.telephone }}</a
-                >
-              </p>
+              @for (tel of params().telephones; track tel) {
+                <p class="flex items-center gap-2">
+                  <app-icon name="phone" [size]="18" />
+                  <a
+                    [href]="'tel:' + tel"
+                    dir="ltr"
+                    class="transition-colors hover:text-white"
+                    >{{ tel }}</a
+                  >
+                </p>
+              }
               <p class="flex items-center gap-2">
                 <app-icon name="mail" [size]="18" />
                 <a
-                  [href]="'mailto:' + content.contact.email"
+                  [href]="'mailto:' + params().email"
                   class="transition-colors hover:text-white"
-                  >{{ content.contact.email }}</a
+                  >{{ params().email }}</a
                 >
               </p>
             </address>
@@ -95,7 +99,7 @@ import { OpeningHours } from '../opening-hours/opening-hours';
         </div>
 
         <div class="mt-12 border-t border-white/10 pt-6 text-center text-sm text-slate-400">
-          © <span dir="ltr">{{ year }}</span> {{ content.nomEntreprise }}. جميع الحقوق محفوظة.
+          © <span dir="ltr">{{ year }}</span> {{ params().nomEntreprise }}. جميع الحقوق محفوظة.
         </div>
       </div>
     </footer>
@@ -104,6 +108,7 @@ import { OpeningHours } from '../opening-hours/opening-hours';
 export class SiteFooter {
   private readonly auth = inject(AuthStore);
   protected readonly content = inject(SITE_CONTENT);
+  protected readonly params = inject(ParametresStore).parametres;
   protected readonly year = new Date().getFullYear();
   protected readonly authLink = computed(() =>
     this.auth.isAuthenticated()
@@ -111,7 +116,7 @@ export class SiteFooter {
       : { path: '/login', label: 'تسجيل الدخول' },
   );
 
-  protected socialIcon(reseau: 'facebook' | 'instagram' | 'linkedin'): IconName {
+  protected socialIcon(reseau: SocialReseau): IconName {
     return reseau;
   }
 }

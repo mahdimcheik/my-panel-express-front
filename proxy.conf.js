@@ -12,7 +12,15 @@ const bypass = (req) => {
 };
 
 const target = 'https://localhost:7113';
-const paths = ['/auth', '/contact', '/horaires', '/media', '/realisations', '/services'];
+const paths = [
+  '/auth',
+  '/contact',
+  '/horaires',
+  '/media',
+  '/realisations',
+  '/services',
+  '/parametres',
+];
 
 module.exports = paths.reduce((config, path) => {
   config[path] = { target, secure: false, changeOrigin: true, bypass };

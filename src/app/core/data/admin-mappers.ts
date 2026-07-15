@@ -3,11 +3,13 @@ import type {
   CreateService,
   HoraireDetails,
   ImageOrdre,
+  ParametresDetails,
   RealisationDetails,
   RealisationImageDetails,
   ServiceDetails,
   ServiceImageDetails,
   UpdateHoraire,
+  UpdateParametres,
   UpdateRealisation,
   UpdateService,
 } from '../api/models';
@@ -16,6 +18,7 @@ import { DAY_LABELS, DAY_ORDER, toHm } from './mappers';
 import type {
   AdminImage,
   HoraireAdminView,
+  ParametresAdminView,
   RealisationAdminView,
   ServiceAdminView,
 } from './admin-view-models';
@@ -86,6 +89,24 @@ export function toHoraireAdminView(dto: HoraireDetails): HoraireAdminView {
 
 export function sortHorairesAdmin(views: readonly HoraireAdminView[]): HoraireAdminView[] {
   return [...views].sort((a, b) => DAY_ORDER.indexOf(a.jour) - DAY_ORDER.indexOf(b.jour));
+}
+
+export function toParametresAdminView(dto: ParametresDetails): ParametresAdminView {
+  const telephones = (dto.telephones ?? [])
+    .map((t) => (t ?? '').trim())
+    .filter((t) => t.length > 0);
+  return {
+    nomEntreprise: dto.nomEntreprise?.trim() ?? '',
+    adresse: dto.adresse?.trim() ?? '',
+    telephones,
+    email: dto.email?.trim() ?? '',
+    logo: dto.logo?.trim() || null,
+    facebook: dto.facebook?.trim() ?? '',
+    instagram: dto.instagram?.trim() ?? '',
+    whatsApp: dto.whatsApp?.trim() ?? '',
+    tikTok: dto.tikTok?.trim() ?? '',
+    updatedAt: dto.updatedAt ?? null,
+  };
 }
 
 // --- Form values → write DTOs ---
@@ -167,4 +188,36 @@ export function toUpdateHoraire(view: {
 /** Builds the full `ImageOrdre[]` payload from a reordered list of image ids. */
 export function toImageOrdre(ids: readonly string[]): ImageOrdre[] {
   return ids.map((imageId, index) => ({ imageId, ordre: index }));
+}
+
+export interface ParametresFormValue {
+  readonly nomEntreprise: string;
+  readonly adresse: string;
+  /** One phone number per line. */
+  readonly telephones: string;
+  readonly facebook: string;
+  readonly instagram: string;
+  readonly whatsApp: string;
+  readonly tikTok: string;
+}
+
+/** Trims a text field, mapping the empty string to `null` for the nullable API fields. */
+function trimOrNull(value: string): string | null {
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+export function toUpdateParametres(value: ParametresFormValue): UpdateParametres {
+  const telephones = splitLines(value.telephones)
+    .map((t) => t.trim())
+    .filter((t) => t.length > 0);
+  return {
+    nomEntreprise: value.nomEntreprise.trim(),
+    adresse: value.adresse.trim(),
+    telephones: telephones.length > 0 ? telephones : null,
+    facebook: trimOrNull(value.facebook),
+    instagram: trimOrNull(value.instagram),
+    whatsApp: trimOrNull(value.whatsApp),
+    tikTok: trimOrNull(value.tikTok),
+  };
 }

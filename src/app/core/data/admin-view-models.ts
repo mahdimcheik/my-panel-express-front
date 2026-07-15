@@ -34,6 +34,22 @@ export interface RealisationAdminView {
   readonly updatedAt: string | null;
 }
 
+/** The site parameters as the back-office edits them: raw stored values, empty string for null. */
+export interface ParametresAdminView {
+  readonly nomEntreprise: string;
+  readonly adresse: string;
+  readonly telephones: readonly string[];
+  /** Read-only: not part of `UpdateParametres`. */
+  readonly email: string;
+  /** Read-only: managed outside this endpoint. */
+  readonly logo: string | null;
+  readonly facebook: string;
+  readonly instagram: string;
+  readonly whatsApp: string;
+  readonly tikTok: string;
+  readonly updatedAt: string | null;
+}
+
 export interface HoraireAdminView {
   readonly id: string;
   readonly jour: DayOfWeek;
