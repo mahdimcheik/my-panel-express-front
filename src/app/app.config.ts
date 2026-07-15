@@ -3,7 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {
   PreloadAllModules,
   TitleStrategy,
@@ -18,6 +18,7 @@ import { definePreset } from '@primeuix/themes';
 
 import { routes } from './app.routes';
 import { AppTitleStrategy } from './core/seo/app-title-strategy';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 // Keep PrimeNG's `primary` palette in lockstep with the Tailwind `--color-brand-*` ramp.
 const MyPanelPreset = definePreset(Aura, {
@@ -42,7 +43,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideRouter(
       routes,
       withComponentInputBinding(),

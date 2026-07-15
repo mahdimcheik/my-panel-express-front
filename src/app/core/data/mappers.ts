@@ -4,13 +4,14 @@ import type {
   RealisationImageDetails,
   ServiceDetails,
   ServiceImageDetails,
+  UserDetails,
 } from '../api/models';
 import type {
   ServiceFallback,
   HoraireFallback,
 } from '../content/site-content.model';
 import { splitLines } from '../../shared/util/lines';
-import type { HoraireView, ImageRef, RealisationView, ServiceView } from './view-models';
+import type { HoraireView, ImageRef, RealisationView, ServiceView, UserView } from './view-models';
 
 type ImageDetails = ServiceImageDetails | RealisationImageDetails;
 
@@ -83,6 +84,19 @@ export function toHoraireView(dto: HoraireDetails): HoraireView {
     libelle: DAY_LABELS[jour] ?? jour,
     ferme,
     plage: !ferme && opens && closes ? `${opens} – ${closes}` : null,
+  };
+}
+
+export function toUserView(dto: UserDetails): UserView {
+  const email = dto.email?.trim() ?? '';
+  const nomComplet = [dto.firstName, dto.lastName]
+    .map((part) => part?.trim() ?? '')
+    .filter((part) => part.length > 0)
+    .join(' ');
+  return {
+    id: dto.id ?? '',
+    email,
+    nomComplet: nomComplet || email,
   };
 }
 

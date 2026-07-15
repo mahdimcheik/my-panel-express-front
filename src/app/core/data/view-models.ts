@@ -35,3 +35,11 @@ export interface HoraireView {
   /** e.g. `'09:00 – 18:00'`, or `null` when closed. */
   readonly plage: string | null;
 }
+
+/** The authenticated administrator, decoupled from the nullable `UserDetails` DTO. */
+export interface UserView {
+  readonly id: string;
+  readonly email: string;
+  /** `firstName lastName` trimmed; falls back to the email when both are absent. */
+  readonly nomComplet: string;
+}

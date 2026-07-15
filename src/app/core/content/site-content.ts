@@ -16,12 +16,12 @@ export const SITE_CONTENT: SiteContent = {
     { path: '/realisations', label: 'أعمالنا', exact: false },
     { path: '/a-propos', label: 'من نحن', exact: false },
     { path: '/contact', label: 'اتصل بنا', exact: false },
+    { path: '/login', label: 'تسجيل الدخول', exact: false },
   ],
 
   hero: {
     titre: 'لوحات إشهارية ولافتات تصنع الفرق',
-    slogan:
-      'من التصميم إلى التركيب، نرافقك في كل خطوة لإبراز علامتك التجارية بأعلى معايير الجودة.',
+    slogan: 'من التصميم إلى التركيب، نرافقك في كل خطوة لإبراز علامتك التجارية بأعلى معايير الجودة.',
     // No hero photo yet → the section falls back to the brand gradient.
     // Set to '/images/hero.webp' once the asset is added under public/.
     image: null,
