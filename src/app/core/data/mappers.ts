@@ -27,7 +27,7 @@ function firstImage(
 }
 
 /** Trims a .NET `"09:00:00"` time to `"09:00"`. */
-function toHm(time: string | null | undefined): string | null {
+export function toHm(time: string | null | undefined): string | null {
   if (!time) {
     return null;
   }
@@ -35,7 +35,7 @@ function toHm(time: string | null | undefined): string | null {
   return h && m ? `${h}:${m}` : time;
 }
 
-const DAY_LABELS: Record<string, string> = {
+export const DAY_LABELS: Record<string, string> = {
   Sunday: 'الأحد',
   Monday: 'الاثنين',
   Tuesday: 'الثلاثاء',
@@ -46,7 +46,7 @@ const DAY_LABELS: Record<string, string> = {
 };
 
 /** Monday → Sunday, the display order used across the site. */
-const DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+export const DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export function toServiceView(dto: ServiceDetails): ServiceView {
   const nom = dto.nom?.trim() ?? '';

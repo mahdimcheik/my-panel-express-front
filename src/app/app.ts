@@ -5,6 +5,7 @@ import {
   DestroyRef,
   ElementRef,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -24,13 +25,18 @@ import { SiteFooter } from './layout/site-footer/site-footer';
       تخطَّ إلى المحتوى الرئيسي
     </a>
 
-    <app-site-header />
+    <!-- The back-office brings its own shell (sidebar + topbar). -->
+    @if (!isAdmin()) {
+      <app-site-header />
+    }
 
     <main #main id="main" tabindex="-1" class="outline-none">
       <router-outlet />
     </main>
 
-    <app-site-footer />
+    @if (!isAdmin()) {
+      <app-site-footer />
+    }
   `,
 })
 export class App implements AfterViewInit {
@@ -38,12 +44,18 @@ export class App implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly main = viewChild.required<ElementRef<HTMLElement>>('main');
 
+  /** Public site chrome is hidden under `/admin`, which renders its own layout. */
+  protected readonly isAdmin = signal(this.router.url.startsWith('/admin'));
+
   ngAfterViewInit(): void {
     // Move focus to <main> on subsequent navigations so keyboard/SR users are not
     // left parked in the header after a route change (skip the initial load).
     const sub = this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => this.main().nativeElement.focus({ preventScroll: true }));
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((e) => {
+        this.isAdmin.set(e.urlAfterRedirects.startsWith('/admin'));
+        this.main().nativeElement.focus({ preventScroll: true });
+      });
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 }

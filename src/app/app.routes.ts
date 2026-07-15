@@ -36,9 +36,8 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    title: 'لوحة التحكم',
     canActivate: [authGuard],
-    loadComponent: () => import('./pages/admin/admin-page').then((m) => m.AdminPage),
+    loadChildren: () => import('./pages/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
   {
     path: '**',

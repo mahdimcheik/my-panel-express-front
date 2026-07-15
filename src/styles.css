@@ -5,6 +5,10 @@
 @import 'tailwindcss';
 @plugin 'tailwindcss-primeui';
 
+/* PrimeNG components (Table, paginator, dialog, select, fileupload…) render their
+   built-in glyphs via primeicons classes. Custom app buttons still use <app-icon>. */
+@import 'primeicons/primeicons.css';
+
 /* Dark mode is opt-in via a class, NOT prefers-color-scheme. Aligned with PrimeNG's
    darkModeSelector ('.app-dark') set in app.config.ts. */
 @custom-variant dark (&:where(.app-dark, .app-dark *));
