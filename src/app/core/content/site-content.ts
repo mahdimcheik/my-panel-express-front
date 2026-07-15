@@ -16,7 +16,6 @@ export const SITE_CONTENT: SiteContent = {
     { path: '/realisations', label: 'أعمالنا', exact: false },
     { path: '/a-propos', label: 'من نحن', exact: false },
     { path: '/contact', label: 'اتصل بنا', exact: false },
-    { path: '/login', label: 'تسجيل الدخول', exact: false },
   ],
 
   hero: {

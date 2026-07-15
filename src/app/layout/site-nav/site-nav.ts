@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { AuthStore } from '../../core/auth/auth-store';
 
 /** The list of primary navigation links, shared by the desktop bar and the mobile drawer. */
 @Component({
@@ -24,6 +32,19 @@ import { SITE_CONTENT } from '../../core/content/site-content.token';
           </a>
         </li>
       }
+      <li>
+        <a
+          [routerLink]="authLink().path"
+          routerLinkActive="text-brand-700 font-bold"
+          #rlaAuth="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: false }"
+          [attr.aria-current]="rlaAuth.isActive ? 'page' : null"
+          (click)="navigate.emit()"
+          class="block rounded-md px-3 py-2 font-medium text-slate-700 transition-colors hover:text-brand-700"
+        >
+          {{ authLink().label }}
+        </a>
+      </li>
     </ul>
   `,
 })
@@ -31,5 +52,11 @@ export class SiteNav {
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly navigate = output<void>();
 
+  private readonly auth = inject(AuthStore);
   protected readonly links = inject(SITE_CONTENT).nav;
+  protected readonly authLink = computed(() =>
+    this.auth.isAuthenticated()
+      ? { path: '/admin', label: 'لوحة التحكم' }
+      : { path: '/login', label: 'تسجيل الدخول' },
+  );
 }

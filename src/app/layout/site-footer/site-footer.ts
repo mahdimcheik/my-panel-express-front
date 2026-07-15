@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SITE_CONTENT } from '../../core/content/site-content.token';
+import { AuthStore } from '../../core/auth/auth-store';
 import { Icon, type IconName } from '../../shared/ui/icon/icon';
 import { OpeningHours } from '../opening-hours/opening-hours';
 
@@ -45,6 +46,14 @@ import { OpeningHours } from '../opening-hours/opening-hours';
                   </a>
                 </li>
               }
+              <li>
+                <a
+                  [routerLink]="authLink().path"
+                  class="text-slate-300 transition-colors hover:text-white"
+                >
+                  {{ authLink().label }}
+                </a>
+              </li>
             </ul>
           </nav>
 
@@ -93,8 +102,14 @@ import { OpeningHours } from '../opening-hours/opening-hours';
   `,
 })
 export class SiteFooter {
+  private readonly auth = inject(AuthStore);
   protected readonly content = inject(SITE_CONTENT);
   protected readonly year = new Date().getFullYear();
+  protected readonly authLink = computed(() =>
+    this.auth.isAuthenticated()
+      ? { path: '/admin', label: 'لوحة التحكم' }
+      : { path: '/login', label: 'تسجيل الدخول' },
+  );
 
   protected socialIcon(reseau: 'facebook' | 'instagram' | 'linkedin'): IconName {
     return reseau;
