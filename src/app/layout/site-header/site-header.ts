@@ -17,7 +17,7 @@ import { SiteNav } from '../site-nav/site-nav';
     >
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <a routerLink="/" class="flex items-center gap-3" aria-label="الصفحة الرئيسية">
-          <img ngSrc="/logo.svg" width="40" height="40" alt="" priority class="h-10 w-10" />
+          <img ngSrc="/logomp.webp" width="40" height="40" alt="" priority class="h-8 w-14" />
           <span class="text-lg font-bold text-brand-900 dark:text-brand-100">{{
             params().nomEntreprise
           }}</span>

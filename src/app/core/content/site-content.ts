@@ -7,7 +7,7 @@ import type { SiteContent } from './site-content.model';
  * with a value provided from the API via {@link SITE_CONTENT} — no component changes needed.
  */
 export const SITE_CONTENT: SiteContent = {
-  nomEntreprise: 'ماي بانل إكسبرس',
+  nomEntreprise: 'ماي بانل برس',
   slogan: 'طباعة وتصنيع اللوحات الإعلانية بجودة احترافية',
 
   nav: [
