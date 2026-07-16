@@ -11,7 +11,7 @@ import { ServiceCard } from './service-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, SectionShell, CardGridSkeleton, LoadError, ServiceCard],
   template: `
-    <div class="bg-slate-50">
+    <div class="bg-slate-50 dark:bg-slate-900">
       <app-section-shell
         titre="خدماتنا"
         headingId="services-title"
@@ -35,7 +35,7 @@ import { ServiceCard } from './service-card';
         <div class="mt-10 text-center">
           <a
             routerLink="/services"
-            class="inline-block rounded-lg border border-brand-600 px-6 py-3 font-semibold text-brand-700 transition-colors hover:bg-brand-50"
+            class="inline-block rounded-lg border border-brand-600 px-6 py-3 font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-300 dark:hover:bg-brand-900/40"
           >
             عرض كل الخدمات
           </a>

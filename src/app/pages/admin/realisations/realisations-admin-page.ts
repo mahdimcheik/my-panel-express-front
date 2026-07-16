@@ -16,7 +16,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
   imports: [RouterLink, TableModule, Tag, ButtonModule, Icon, CardGridSkeleton, LoadError],
   template: `
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-2xl font-bold text-brand-900">الأعمال</h1>
+      <h1 class="text-2xl font-bold text-brand-900 dark:text-brand-100">الأعمال</h1>
       <a
         routerLink="/admin/realisations/new"
         class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-brand-700"
@@ -52,7 +52,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
           </ng-template>
           <ng-template #body let-item>
             <tr>
-              <td class="font-medium text-brand-900">{{ item.titre }}</td>
+              <td class="font-medium text-brand-900 dark:text-brand-100">{{ item.titre }}</td>
               <td>{{ item.categorie }}</td>
               <td>
                 @if (item.dateRealisation) {
@@ -73,7 +73,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
                 <div class="flex items-center gap-1">
                   <a
                     [routerLink]="['/admin/realisations', item.id]"
-                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100"
+                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                     [attr.aria-label]="'تعديل ' + item.titre"
                   >
                     <app-icon name="edit" [size]="18" />
@@ -81,7 +81,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
                   <button
                     type="button"
                     [disabled]="busyId() === item.id"
-                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40"
+                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-800"
                     [attr.aria-pressed]="item.visible"
                     [attr.aria-label]="(item.visible ? 'إخفاء ' : 'إظهار ') + item.titre"
                     (click)="toggleVisible(item)"
@@ -91,7 +91,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
                   <button
                     type="button"
                     [disabled]="busyId() === item.id"
-                    class="rounded p-1.5 text-red-600 hover:bg-red-50 disabled:opacity-40"
+                    class="rounded p-1.5 text-red-600 hover:bg-red-50 disabled:opacity-40 dark:text-red-400 dark:hover:bg-red-950/40"
                     [attr.aria-label]="'حذف ' + item.titre"
                     (click)="confirmDelete(item)"
                   >
@@ -103,7 +103,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
           </ng-template>
           <ng-template #emptymessage>
             <tr>
-              <td colspan="6" class="p-6 text-center text-slate-500">لا توجد أعمال بعد.</td>
+              <td colspan="6" class="p-6 text-center text-slate-500 dark:text-slate-400">لا توجد أعمال بعد.</td>
             </tr>
           </ng-template>
         </p-table>

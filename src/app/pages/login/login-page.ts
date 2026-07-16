@@ -13,8 +13,8 @@ import { AuthStore } from '../../core/auth/auth-store';
   imports: [ReactiveFormsModule, InputText, Password, ButtonModule, Message],
   template: `
     <div class="mx-auto flex min-h-[70vh] w-full max-w-md flex-col justify-center px-4 py-16 sm:px-6">
-      <h1 class="text-start text-2xl font-bold text-brand-900">تسجيل الدخول</h1>
-      <p class="mt-2 text-start text-slate-600">الدخول إلى لوحة تحكم المشرف.</p>
+      <h1 class="text-start text-2xl font-bold text-brand-900 dark:text-brand-100">تسجيل الدخول</h1>
+      <p class="mt-2 text-start text-slate-600 dark:text-slate-300">الدخول إلى لوحة تحكم المشرف.</p>
 
       <div class="mt-6" aria-live="assertive">
         @if (errorMessage()) {
@@ -24,7 +24,7 @@ import { AuthStore } from '../../core/auth/auth-store';
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4 flex flex-col gap-5" novalidate>
         <div class="flex flex-col gap-2">
-          <label for="login-email" class="text-start font-medium text-brand-900">
+          <label for="login-email" class="text-start font-medium text-brand-900 dark:text-brand-100">
             البريد الإلكتروني
           </label>
           <input
@@ -39,14 +39,14 @@ import { AuthStore } from '../../core/auth/auth-store';
             aria-describedby="login-email-error"
           />
           @if (isInvalid('email')) {
-            <small id="login-email-error" class="text-start text-red-600">
+            <small id="login-email-error" class="text-start text-red-600 dark:text-red-400">
               أدخل بريدًا إلكترونيًا صحيحًا.
             </small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="login-password" class="text-start font-medium text-brand-900">
+          <label for="login-password" class="text-start font-medium text-brand-900 dark:text-brand-100">
             كلمة المرور
           </label>
           <p-password
@@ -61,7 +61,7 @@ import { AuthStore } from '../../core/auth/auth-store';
             aria-describedby="login-password-error"
           />
           @if (isInvalid('password')) {
-            <small id="login-password-error" class="text-start text-red-600">
+            <small id="login-password-error" class="text-start text-red-600 dark:text-red-400">
               كلمة المرور مطلوبة.
             </small>
           }

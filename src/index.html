@@ -5,7 +5,23 @@
     <title>MyPanel.press — طباعة وتصنيع اللوحات الإعلانية واللافتات والتشوير</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Set the theme before first paint so a dark user never flashes light.
+         Mirrors ThemeStore; the store owns everything after Angular boots. -->
+    <script>
+      (function () {
+        try {
+          var p = localStorage.getItem('mpe.theme');
+          var dark =
+            p === 'dark' ||
+            ((p === 'system' || !p) && matchMedia('(prefers-color-scheme: dark)').matches);
+          var el = document.documentElement;
+          if (dark) el.classList.add('app-dark');
+          el.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
     <meta name="theme-color" content="#0f3d63" />
 
     <!-- Primary meta tags -->
@@ -55,7 +71,7 @@
       crossorigin
     />
   </head>
-  <body class="min-h-dvh bg-white text-slate-800">
+  <body class="min-h-dvh bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100">
     <app-root></app-root>
     <noscript>هذا الموقع يتطلّب تفعيل جافاسكريبت.</noscript>
   </body>

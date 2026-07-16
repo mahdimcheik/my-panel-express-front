@@ -31,8 +31,8 @@ import { LoadError } from '../../../shared/ui/load-error/load-error';
     LoadError,
   ],
   template: `
-    <h1 class="text-2xl font-bold text-brand-900">إعدادات الموقع</h1>
-    <p class="mt-1 text-slate-600">معلومات المؤسسة وبيانات الاتصال وروابط التواصل الاجتماعي.</p>
+    <h1 class="text-2xl font-bold text-brand-900 dark:text-brand-100">إعدادات الموقع</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-300">معلومات المؤسسة وبيانات الاتصال وروابط التواصل الاجتماعي.</p>
 
     <div class="mt-4" aria-live="assertive">
       @if (errorMessage()) {
@@ -49,26 +49,26 @@ import { LoadError } from '../../../shared/ui/load-error/load-error';
         <form
           [formGroup]="form"
           (ngSubmit)="submit()"
-          class="max-w-2xl space-y-6 rounded-card border border-slate-200 bg-white p-6 shadow-card"
+          class="max-w-2xl space-y-6 rounded-card border border-slate-200 bg-white p-6 shadow-card dark:border-slate-700 dark:bg-slate-900"
         >
           <div>
-            <label for="nom" class="mb-1 block font-medium text-slate-700">اسم المؤسسة</label>
+            <label for="nom" class="mb-1 block font-medium text-slate-700 dark:text-slate-300">اسم المؤسسة</label>
             <input pInputText id="nom" formControlName="nomEntreprise" class="w-full" />
             @if (invalid('nomEntreprise')) {
-              <p class="mt-1 text-sm text-red-600">هذا الحقل مطلوب.</p>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400">هذا الحقل مطلوب.</p>
             }
           </div>
 
           <div>
-            <label for="adresse" class="mb-1 block font-medium text-slate-700">العنوان</label>
+            <label for="adresse" class="mb-1 block font-medium text-slate-700 dark:text-slate-300">العنوان</label>
             <input pInputText id="adresse" formControlName="adresse" class="w-full" />
             @if (invalid('adresse')) {
-              <p class="mt-1 text-sm text-red-600">هذا الحقل مطلوب.</p>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400">هذا الحقل مطلوب.</p>
             }
           </div>
 
           <div>
-            <label for="telephones" class="mb-1 block font-medium text-slate-700">
+            <label for="telephones" class="mb-1 block font-medium text-slate-700 dark:text-slate-300">
               أرقام الهاتف
             </label>
             <textarea
@@ -79,24 +79,24 @@ import { LoadError } from '../../../shared/ui/load-error/load-error';
               dir="ltr"
               class="w-full"
             ></textarea>
-            <p class="mt-1 text-sm text-slate-500">رقم واحد في كل سطر.</p>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">رقم واحد في كل سطر.</p>
           </div>
 
           @if (email()) {
             <div>
-              <span class="mb-1 block font-medium text-slate-700">البريد الإلكتروني</span>
-              <p class="text-slate-600" dir="ltr">{{ email() }}</p>
+              <span class="mb-1 block font-medium text-slate-700 dark:text-slate-300">البريد الإلكتروني</span>
+              <p class="text-slate-600 dark:text-slate-300" dir="ltr">{{ email() }}</p>
             </div>
           }
 
           <fieldset class="space-y-4">
-            <legend class="font-medium text-slate-700">روابط التواصل الاجتماعي</legend>
+            <legend class="font-medium text-slate-700 dark:text-slate-300">روابط التواصل الاجتماعي</legend>
             <div>
-              <label for="facebook" class="mb-1 block text-sm text-slate-600">فيسبوك</label>
+              <label for="facebook" class="mb-1 block text-sm text-slate-600 dark:text-slate-400">فيسبوك</label>
               <input pInputText id="facebook" formControlName="facebook" dir="ltr" class="w-full" />
             </div>
             <div>
-              <label for="instagram" class="mb-1 block text-sm text-slate-600">إنستغرام</label>
+              <label for="instagram" class="mb-1 block text-sm text-slate-600 dark:text-slate-400">إنستغرام</label>
               <input
                 pInputText
                 id="instagram"
@@ -106,11 +106,11 @@ import { LoadError } from '../../../shared/ui/load-error/load-error';
               />
             </div>
             <div>
-              <label for="whatsapp" class="mb-1 block text-sm text-slate-600">واتساب</label>
+              <label for="whatsapp" class="mb-1 block text-sm text-slate-600 dark:text-slate-400">واتساب</label>
               <input pInputText id="whatsapp" formControlName="whatsApp" dir="ltr" class="w-full" />
             </div>
             <div>
-              <label for="tiktok" class="mb-1 block text-sm text-slate-600">تيك توك</label>
+              <label for="tiktok" class="mb-1 block text-sm text-slate-600 dark:text-slate-400">تيك توك</label>
               <input pInputText id="tiktok" formControlName="tikTok" dir="ltr" class="w-full" />
             </div>
           </fieldset>

@@ -21,7 +21,7 @@ import type { AdminImage } from '../../../core/data/admin-view-models';
   template: `
     <section aria-labelledby="gallery-heading" class="space-y-4">
       <div class="flex items-center justify-between gap-3">
-        <h2 id="gallery-heading" class="text-lg font-semibold text-brand-900">الصور</h2>
+        <h2 id="gallery-heading" class="text-lg font-semibold text-brand-900 dark:text-brand-100">الصور</h2>
         <div>
           <input
             #fileInput
@@ -44,14 +44,14 @@ import type { AdminImage } from '../../../core/data/admin-view-models';
       </div>
 
       @if (images().length === 0) {
-        <p class="rounded-lg border border-dashed border-slate-300 p-6 text-center text-slate-500">
+        <p class="rounded-lg border border-dashed border-slate-300 p-6 text-center text-slate-500 dark:border-slate-600 dark:text-slate-400">
           لا توجد صور بعد. أضف صورة واحدة أو أكثر.
         </p>
       } @else {
         <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           @for (img of images(); track img.id; let i = $index, first = $first, last = $last) {
-            <li class="overflow-hidden rounded-card border border-slate-200 bg-white shadow-card">
-              <div class="aspect-square w-full bg-slate-100">
+            <li class="overflow-hidden rounded-card border border-slate-200 bg-white shadow-card dark:border-slate-700 dark:bg-slate-900">
+              <div class="aspect-square w-full bg-slate-100 dark:bg-slate-800">
                 <app-remote-image [image]="img.ref" />
               </div>
               <div class="flex items-center justify-between gap-1 p-2">
@@ -59,7 +59,7 @@ import type { AdminImage } from '../../../core/data/admin-view-models';
                   <button
                     type="button"
                     [disabled]="busy() || first"
-                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40"
+                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-800"
                     [attr.aria-label]="'نقل الصورة ' + (i + 1) + ' للأمام'"
                     (click)="moveUp(i)"
                   >
@@ -68,7 +68,7 @@ import type { AdminImage } from '../../../core/data/admin-view-models';
                   <button
                     type="button"
                     [disabled]="busy() || last"
-                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40"
+                    class="rounded p-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-800"
                     [attr.aria-label]="'نقل الصورة ' + (i + 1) + ' للخلف'"
                     (click)="moveDown(i)"
                   >
@@ -78,7 +78,7 @@ import type { AdminImage } from '../../../core/data/admin-view-models';
                 <button
                   type="button"
                   [disabled]="busy()"
-                  class="rounded p-1.5 text-red-600 hover:bg-red-50 disabled:opacity-40"
+                  class="rounded p-1.5 text-red-600 hover:bg-red-50 disabled:opacity-40 dark:text-red-400 dark:hover:bg-red-950/40"
                   [attr.aria-label]="'حذف الصورة ' + (i + 1)"
                   (click)="deleteImage.emit(img.id)"
                 >

@@ -8,8 +8,8 @@ import type { RealisationView } from '../../../core/data/view-models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ImageCarousel],
   template: `
-    <article class="group overflow-hidden rounded-card bg-white shadow-card">
-      <div class="aspect-square bg-slate-100">
+    <article class="group overflow-hidden rounded-card bg-white shadow-card dark:bg-slate-900">
+      <div class="aspect-square bg-slate-100 dark:bg-slate-800">
         <app-image-carousel
           [images]="realisation().images"
           [label]="'صور ' + realisation().titre"
@@ -18,15 +18,15 @@ import type { RealisationView } from '../../../core/data/view-models';
       </div>
       <div class="p-4">
         <div class="flex items-center justify-between gap-2">
-          <h3 class="font-bold text-brand-900">{{ realisation().titre }}</h3>
+          <h3 class="font-bold text-brand-900 dark:text-brand-100">{{ realisation().titre }}</h3>
           @if (realisation().categorie; as categorie) {
-            <span class="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">
+            <span class="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">
               {{ categorie }}
             </span>
           }
         </div>
         @if (date(); as d) {
-          <p class="mt-1 text-xs text-slate-500">{{ d }}</p>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ d }}</p>
         }
       </div>
     </article>

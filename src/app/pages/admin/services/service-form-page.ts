@@ -26,10 +26,10 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
   ],
   template: `
     <div class="mx-auto max-w-3xl">
-      <a routerLink="/admin/services" class="text-sm text-brand-700 hover:underline">
+      <a routerLink="/admin/services" class="text-sm text-brand-700 hover:underline dark:text-brand-300">
         → العودة إلى الخدمات
       </a>
-      <h1 class="mt-2 text-2xl font-bold text-brand-900">
+      <h1 class="mt-2 text-2xl font-bold text-brand-900 dark:text-brand-100">
         {{ isEdit() ? 'تعديل الخدمة' : 'خدمة جديدة' }}
       </h1>
 
@@ -41,7 +41,7 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4 flex flex-col gap-5" novalidate>
         <div class="flex flex-col gap-2">
-          <label for="svc-nom" class="font-medium text-brand-900">الاسم</label>
+          <label for="svc-nom" class="font-medium text-brand-900 dark:text-brand-100">الاسم</label>
           <input
             pInputText
             id="svc-nom"
@@ -52,12 +52,12 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
             aria-describedby="svc-nom-error"
           />
           @if (isInvalid('nom')) {
-            <small id="svc-nom-error" class="text-red-600">الاسم مطلوب (200 حرف كحد أقصى).</small>
+            <small id="svc-nom-error" class="text-red-600 dark:text-red-400">الاسم مطلوب (200 حرف كحد أقصى).</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="svc-desc" class="font-medium text-brand-900">الوصف</label>
+          <label for="svc-desc" class="font-medium text-brand-900 dark:text-brand-100">الوصف</label>
           <textarea
             pTextarea
             id="svc-desc"
@@ -69,13 +69,13 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
             aria-describedby="svc-desc-error"
           ></textarea>
           @if (isInvalid('description')) {
-            <small id="svc-desc-error" class="text-red-600">الوصف مطلوب.</small>
+            <small id="svc-desc-error" class="text-red-600 dark:text-red-400">الوصف مطلوب.</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="svc-avantages" class="font-medium text-brand-900">
-            المزايا <span class="font-normal text-slate-500">(ميزة واحدة في كل سطر)</span>
+          <label for="svc-avantages" class="font-medium text-brand-900 dark:text-brand-100">
+            المزايا <span class="font-normal text-slate-500 dark:text-slate-400">(ميزة واحدة في كل سطر)</span>
           </label>
           <textarea
             pTextarea
@@ -88,7 +88,7 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="svc-ordre" class="font-medium text-brand-900">الترتيب</label>
+          <label for="svc-ordre" class="font-medium text-brand-900 dark:text-brand-100">الترتيب</label>
           <input
             pInputText
             id="svc-ordre"
@@ -102,7 +102,7 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
 
         <div class="flex items-center gap-2">
           <p-checkbox inputId="svc-visible" formControlName="visible" [binary]="true" />
-          <label for="svc-visible" class="font-medium text-brand-900">ظاهرة في الموقع</label>
+          <label for="svc-visible" class="font-medium text-brand-900 dark:text-brand-100">ظاهرة في الموقع</label>
         </div>
 
         <div class="flex gap-3">
@@ -123,7 +123,7 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
       </form>
 
       @if (isEdit() && item(); as svc) {
-        <hr class="my-8 border-slate-200" />
+        <hr class="my-8 border-slate-200 dark:border-slate-700" />
         <app-image-gallery-manager
           [images]="svc.images"
           [busy]="galleryBusy()"
@@ -132,7 +132,7 @@ import type { ServiceAdminView } from '../../../core/data/admin-view-models';
           (reorder)="onReorder($event)"
         />
       } @else if (!isEdit()) {
-        <p class="mt-8 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-500">
+        <p class="mt-8 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-600 dark:text-slate-400">
           يمكنك إضافة الصور بعد إنشاء الخدمة.
         </p>
       }

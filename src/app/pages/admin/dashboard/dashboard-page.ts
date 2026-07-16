@@ -19,24 +19,24 @@ interface StatCard {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, Icon],
   template: `
-    <h1 class="text-2xl font-bold text-brand-900">لوحة القيادة</h1>
+    <h1 class="text-2xl font-bold text-brand-900 dark:text-brand-100">لوحة القيادة</h1>
     @if (user(); as u) {
-      <p class="mt-1 text-slate-600">مرحبًا، <span dir="ltr">{{ u.email }}</span></p>
+      <p class="mt-1 text-slate-600 dark:text-slate-300">مرحبًا، <span dir="ltr">{{ u.email }}</span></p>
     }
 
     <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (card of cards(); track card.link) {
         <a
           [routerLink]="card.link"
-          class="flex items-start gap-4 rounded-card border border-slate-200 bg-white p-5 shadow-card transition-colors hover:border-brand-300"
+          class="flex items-start gap-4 rounded-card border border-slate-200 bg-white p-5 shadow-card transition-colors hover:border-brand-300 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-brand-500"
         >
-          <span class="rounded-lg bg-brand-50 p-3 text-brand-700">
+          <span class="rounded-lg bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">
             <app-icon [name]="card.icon" [size]="24" />
           </span>
           <span class="min-w-0">
-            <span class="block text-3xl font-bold text-brand-900">{{ card.value }}</span>
-            <span class="block font-medium text-slate-700">{{ card.label }}</span>
-            <span class="block text-sm text-slate-500">{{ card.hint }}</span>
+            <span class="block text-3xl font-bold text-brand-900 dark:text-brand-100">{{ card.value }}</span>
+            <span class="block font-medium text-slate-700 dark:text-slate-300">{{ card.label }}</span>
+            <span class="block text-sm text-slate-500 dark:text-slate-400">{{ card.hint }}</span>
           </span>
         </a>
       }

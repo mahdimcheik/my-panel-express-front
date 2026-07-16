@@ -31,8 +31,8 @@ interface DayControls {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, ButtonModule, Checkbox, InputText, Message, CardGridSkeleton, LoadError],
   template: `
-    <h1 class="text-2xl font-bold text-brand-900">أوقات العمل</h1>
-    <p class="mt-1 text-slate-600">حدّد ساعات الفتح والإغلاق لكل يوم.</p>
+    <h1 class="text-2xl font-bold text-brand-900 dark:text-brand-100">أوقات العمل</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-300">حدّد ساعات الفتح والإغلاق لكل يوم.</p>
 
     <div class="mt-4" aria-live="assertive">
       @if (errorMessage()) {
@@ -51,9 +51,9 @@ interface DayControls {
             @for (grp of days.controls; track $index) {
               <li
                 [formGroupName]="$index"
-                class="flex flex-wrap items-center gap-4 rounded-card border border-slate-200 bg-white p-4 shadow-card"
+                class="flex flex-wrap items-center gap-4 rounded-card border border-slate-200 bg-white p-4 shadow-card dark:border-slate-700 dark:bg-slate-900"
               >
-                <span class="w-24 font-semibold text-brand-900">{{ grp.value.libelle }}</span>
+                <span class="w-24 font-semibold text-brand-900 dark:text-brand-100">{{ grp.value.libelle }}</span>
 
                 <label class="flex items-center gap-2 text-sm">
                   <p-checkbox [inputId]="'ferme-' + $index" formControlName="ferme" [binary]="true" />
@@ -61,7 +61,7 @@ interface DayControls {
                 </label>
 
                 <div class="flex items-center gap-2" [class.opacity-40]="grp.value.ferme">
-                  <label [for]="'ouv-' + $index" class="text-sm text-slate-600">من</label>
+                  <label [for]="'ouv-' + $index" class="text-sm text-slate-600 dark:text-slate-400">من</label>
                   <input
                     pInputText
                     [id]="'ouv-' + $index"
@@ -70,7 +70,7 @@ interface DayControls {
                     dir="ltr"
                     class="w-32"
                   />
-                  <label [for]="'ferm-' + $index" class="text-sm text-slate-600">إلى</label>
+                  <label [for]="'ferm-' + $index" class="text-sm text-slate-600 dark:text-slate-400">إلى</label>
                   <input
                     pInputText
                     [id]="'ferm-' + $index"

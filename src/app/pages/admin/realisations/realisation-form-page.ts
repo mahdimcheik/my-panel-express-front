@@ -26,10 +26,10 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
   ],
   template: `
     <div class="mx-auto max-w-3xl">
-      <a routerLink="/admin/realisations" class="text-sm text-brand-700 hover:underline">
+      <a routerLink="/admin/realisations" class="text-sm text-brand-700 hover:underline dark:text-brand-300">
         → العودة إلى الأعمال
       </a>
-      <h1 class="mt-2 text-2xl font-bold text-brand-900">
+      <h1 class="mt-2 text-2xl font-bold text-brand-900 dark:text-brand-100">
         {{ isEdit() ? 'تعديل العمل' : 'عمل جديد' }}
       </h1>
 
@@ -41,7 +41,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4 flex flex-col gap-5" novalidate>
         <div class="flex flex-col gap-2">
-          <label for="rea-titre" class="font-medium text-brand-900">العنوان</label>
+          <label for="rea-titre" class="font-medium text-brand-900 dark:text-brand-100">العنوان</label>
           <input
             pInputText
             id="rea-titre"
@@ -52,12 +52,12 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
             aria-describedby="rea-titre-error"
           />
           @if (isInvalid('titre')) {
-            <small id="rea-titre-error" class="text-red-600">العنوان مطلوب (200 حرف كحد أقصى).</small>
+            <small id="rea-titre-error" class="text-red-600 dark:text-red-400">العنوان مطلوب (200 حرف كحد أقصى).</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="rea-cat" class="font-medium text-brand-900">التصنيف</label>
+          <label for="rea-cat" class="font-medium text-brand-900 dark:text-brand-100">التصنيف</label>
           <input
             pInputText
             id="rea-cat"
@@ -68,12 +68,12 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
             aria-describedby="rea-cat-error"
           />
           @if (isInvalid('categorie')) {
-            <small id="rea-cat-error" class="text-red-600">التصنيف مطلوب.</small>
+            <small id="rea-cat-error" class="text-red-600 dark:text-red-400">التصنيف مطلوب.</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="rea-date" class="font-medium text-brand-900">تاريخ الإنجاز</label>
+          <label for="rea-date" class="font-medium text-brand-900 dark:text-brand-100">تاريخ الإنجاز</label>
           <input
             pInputText
             id="rea-date"
@@ -85,12 +85,12 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
             aria-describedby="rea-date-error"
           />
           @if (isInvalid('dateRealisation')) {
-            <small id="rea-date-error" class="text-red-600">التاريخ مطلوب.</small>
+            <small id="rea-date-error" class="text-red-600 dark:text-red-400">التاريخ مطلوب.</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="rea-desc" class="font-medium text-brand-900">الوصف</label>
+          <label for="rea-desc" class="font-medium text-brand-900 dark:text-brand-100">الوصف</label>
           <textarea
             pTextarea
             id="rea-desc"
@@ -102,13 +102,13 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
             aria-describedby="rea-desc-error"
           ></textarea>
           @if (isInvalid('description')) {
-            <small id="rea-desc-error" class="text-red-600">الوصف مطلوب.</small>
+            <small id="rea-desc-error" class="text-red-600 dark:text-red-400">الوصف مطلوب.</small>
           }
         </div>
 
         <div class="flex items-center gap-2">
           <p-checkbox inputId="rea-visible" formControlName="visible" [binary]="true" />
-          <label for="rea-visible" class="font-medium text-brand-900">ظاهر في الموقع</label>
+          <label for="rea-visible" class="font-medium text-brand-900 dark:text-brand-100">ظاهر في الموقع</label>
         </div>
 
         <div class="flex gap-3">
@@ -129,7 +129,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
       </form>
 
       @if (isEdit() && item(); as rea) {
-        <hr class="my-8 border-slate-200" />
+        <hr class="my-8 border-slate-200 dark:border-slate-700" />
         <app-image-gallery-manager
           [images]="rea.images"
           [busy]="galleryBusy()"
@@ -138,7 +138,7 @@ import type { RealisationAdminView } from '../../../core/data/admin-view-models'
           (reorder)="onReorder($event)"
         />
       } @else if (!isEdit()) {
-        <p class="mt-8 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-500">
+        <p class="mt-8 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-600 dark:text-slate-400">
           يمكنك إضافة الصور بعد إنشاء العمل.
         </p>
       }

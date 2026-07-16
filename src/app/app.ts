@@ -12,6 +12,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { SiteHeader } from './layout/site-header/site-header';
 import { SiteFooter } from './layout/site-footer/site-footer';
+import { ThemeStore } from './core/theme/theme-store';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,8 @@ import { SiteFooter } from './layout/site-footer/site-footer';
 export class App implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  // Instantiate the theme store so its effect (applies `.app-dark` to <html>) runs on boot.
+  private readonly theme = inject(ThemeStore);
   private readonly main = viewChild.required<ElementRef<HTMLElement>>('main');
 
   /** Public site chrome is hidden under `/admin`, which renders its own layout. */

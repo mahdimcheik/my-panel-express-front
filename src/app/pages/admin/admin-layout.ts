@@ -7,6 +7,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthStore } from '../../core/auth/auth-store';
 import { Icon, type IconName } from '../../shared/ui/icon/icon';
+import { ThemeToggle } from '../../shared/ui/theme-toggle/theme-toggle';
 
 interface AdminNavItem {
   readonly label: string;
@@ -25,25 +26,25 @@ const NAV: readonly AdminNavItem[] = [
 @Component({
   selector: 'app-admin-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, ButtonModule, Drawer, Toast, ConfirmDialog, Icon],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, ButtonModule, Drawer, Toast, ConfirmDialog, Icon, ThemeToggle],
   providers: [MessageService, ConfirmationService],
   template: `
-    <div class="flex min-h-screen bg-slate-50 text-slate-800">
+    <div class="flex min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
       <!-- Desktop sidebar (start side = right in RTL) -->
       <aside
-        class="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-e border-slate-200 bg-white lg:flex"
+        class="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-e border-slate-200 bg-white lg:flex dark:border-slate-700 dark:bg-slate-900"
       >
-        <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-5">
-          <span class="text-lg font-bold text-brand-900">لوحة التحكم</span>
+        <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-5 dark:border-slate-700">
+          <span class="text-lg font-bold text-brand-900 dark:text-brand-100">لوحة التحكم</span>
         </div>
         <nav class="flex-1 space-y-1 p-3" aria-label="تنقل لوحة التحكم">
           @for (item of nav; track item.link) {
             <a
               [routerLink]="item.link"
-              routerLinkActive="bg-brand-50 text-brand-800 font-semibold"
+              routerLinkActive="bg-brand-50 text-brand-800 font-semibold dark:bg-brand-900/40 dark:text-brand-200"
               #rla="routerLinkActive"
               [attr.aria-current]="rla.isActive ? 'page' : null"
-              class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-100"
+              class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               <app-icon [name]="item.icon" [size]="20" />
               <span>{{ item.label }}</span>
@@ -55,11 +56,11 @@ const NAV: readonly AdminNavItem[] = [
       <div class="flex min-w-0 flex-1 flex-col">
         <!-- Topbar -->
         <header
-          class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-4 backdrop-blur sm:px-6"
+          class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-4 backdrop-blur sm:px-6 dark:border-slate-700 dark:bg-slate-900/90"
         >
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-lg p-2 text-brand-900 hover:bg-slate-100 lg:hidden"
+            class="inline-flex items-center justify-center rounded-lg p-2 text-brand-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800 lg:hidden"
             aria-controls="admin-menu"
             [attr.aria-expanded]="menuOpen()"
             aria-label="فتح القائمة"
@@ -68,11 +69,16 @@ const NAV: readonly AdminNavItem[] = [
             <app-icon name="menu" [size]="24" />
           </button>
 
-          <a routerLink="/" class="text-sm text-brand-700 hover:underline">← العودة إلى الموقع</a>
+          <a routerLink="/" class="text-sm text-brand-700 hover:underline dark:text-brand-300"
+            >← العودة إلى الموقع</a
+          >
 
           <div class="ms-auto flex items-center gap-3">
+            <app-theme-toggle />
             @if (user(); as u) {
-              <span class="hidden text-sm text-slate-600 sm:inline" dir="ltr">{{ u.email }}</span>
+              <span class="hidden text-sm text-slate-600 sm:inline dark:text-slate-300" dir="ltr">{{
+                u.email
+              }}</span>
             }
             <p-button
               type="button"
@@ -110,9 +116,9 @@ const NAV: readonly AdminNavItem[] = [
         @for (item of nav; track item.link) {
           <a
             [routerLink]="item.link"
-            routerLinkActive="bg-brand-50 text-brand-800 font-semibold"
+            routerLinkActive="bg-brand-50 text-brand-800 font-semibold dark:bg-brand-900/40 dark:text-brand-200"
             (click)="menuOpen.set(false)"
-            class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 hover:bg-slate-100"
+            class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
           >
             <app-icon [name]="item.icon" [size]="20" />
             <span>{{ item.label }}</span>

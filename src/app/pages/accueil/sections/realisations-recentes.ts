@@ -31,7 +31,7 @@ import { RealisationCard } from './realisation-card';
         <div class="mt-10 text-center">
           <a
             routerLink="/realisations"
-            class="inline-block rounded-lg border border-brand-600 px-6 py-3 font-semibold text-brand-700 transition-colors hover:bg-brand-50"
+            class="inline-block rounded-lg border border-brand-600 px-6 py-3 font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-300 dark:hover:bg-brand-900/40"
           >
             عرض كل الأعمال
           </a>

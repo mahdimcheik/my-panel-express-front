@@ -21,12 +21,12 @@ import { AuthStore } from '../../core/auth/auth-store';
         <li>
           <a
             [routerLink]="link.path"
-            routerLinkActive="text-brand-700 font-bold"
+            routerLinkActive="text-brand-700 font-bold dark:text-brand-300"
             #rla="routerLinkActive"
             [routerLinkActiveOptions]="{ exact: link.exact }"
             [attr.aria-current]="rla.isActive ? 'page' : null"
             (click)="navigate.emit()"
-            class="block rounded-md px-3 py-2 font-medium text-slate-700 transition-colors hover:text-brand-700"
+            class="block rounded-md px-3 py-2 font-medium text-slate-700 transition-colors hover:text-brand-700 dark:text-slate-200 dark:hover:text-brand-300"
           >
             {{ link.label }}
           </a>

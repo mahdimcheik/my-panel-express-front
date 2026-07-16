@@ -41,7 +41,7 @@ import type { ImageRef } from '../../../core/data/view-models';
           <app-remote-image [image]="image" [priority]="priority()" />
         }
       } @else {
-        <div class="h-full w-full bg-slate-100" aria-hidden="true"></div>
+        <div class="h-full w-full bg-slate-100 dark:bg-slate-800" aria-hidden="true"></div>
       }
 
       @if (hasMultiple()) {

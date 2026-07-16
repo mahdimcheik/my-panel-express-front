@@ -28,7 +28,7 @@ import type { CreateContactMessage } from '../../core/api/models';
     <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4 flex flex-col gap-5" novalidate>
       <div class="grid gap-5 sm:grid-cols-2">
         <div class="flex flex-col gap-2">
-          <label for="contact-nom" class="font-medium text-brand-900">الاسم</label>
+          <label for="contact-nom" class="font-medium text-brand-900 dark:text-brand-100">الاسم</label>
           <input
             pInputText
             id="contact-nom"
@@ -40,13 +40,13 @@ import type { CreateContactMessage } from '../../core/api/models';
             aria-describedby="contact-nom-error"
           />
           @if (isInvalid('nom')) {
-            <small id="contact-nom-error" class="text-red-600">الاسم مطلوب.</small>
+            <small id="contact-nom-error" class="text-red-600 dark:text-red-400">الاسم مطلوب.</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="contact-societe" class="font-medium text-brand-900">
-            الشركة <span class="font-normal text-slate-500">(اختياري)</span>
+          <label for="contact-societe" class="font-medium text-brand-900 dark:text-brand-100">
+            الشركة <span class="font-normal text-slate-500 dark:text-slate-400">(اختياري)</span>
           </label>
           <input
             pInputText
@@ -59,7 +59,7 @@ import type { CreateContactMessage } from '../../core/api/models';
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="contact-email" class="font-medium text-brand-900">البريد الإلكتروني</label>
+          <label for="contact-email" class="font-medium text-brand-900 dark:text-brand-100">البريد الإلكتروني</label>
           <input
             pInputText
             id="contact-email"
@@ -73,13 +73,13 @@ import type { CreateContactMessage } from '../../core/api/models';
             aria-describedby="contact-email-error"
           />
           @if (isInvalid('email')) {
-            <small id="contact-email-error" class="text-red-600">أدخل بريدًا إلكترونيًا صحيحًا.</small>
+            <small id="contact-email-error" class="text-red-600 dark:text-red-400">أدخل بريدًا إلكترونيًا صحيحًا.</small>
           }
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="contact-tel" class="font-medium text-brand-900">
-            الهاتف <span class="font-normal text-slate-500">(اختياري)</span>
+          <label for="contact-tel" class="font-medium text-brand-900 dark:text-brand-100">
+            الهاتف <span class="font-normal text-slate-500 dark:text-slate-400">(اختياري)</span>
           </label>
           <input
             pInputText
@@ -95,7 +95,7 @@ import type { CreateContactMessage } from '../../core/api/models';
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="contact-sujet" class="font-medium text-brand-900">الموضوع</label>
+        <label for="contact-sujet" class="font-medium text-brand-900 dark:text-brand-100">الموضوع</label>
         <input
           pInputText
           id="contact-sujet"
@@ -106,12 +106,12 @@ import type { CreateContactMessage } from '../../core/api/models';
           aria-describedby="contact-sujet-error"
         />
         @if (isInvalid('sujet')) {
-          <small id="contact-sujet-error" class="text-red-600">الموضوع مطلوب.</small>
+          <small id="contact-sujet-error" class="text-red-600 dark:text-red-400">الموضوع مطلوب.</small>
         }
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="contact-message" class="font-medium text-brand-900">الرسالة</label>
+        <label for="contact-message" class="font-medium text-brand-900 dark:text-brand-100">الرسالة</label>
         <textarea
           pTextarea
           id="contact-message"
@@ -123,7 +123,7 @@ import type { CreateContactMessage } from '../../core/api/models';
           aria-describedby="contact-message-error"
         ></textarea>
         @if (isInvalid('message')) {
-          <small id="contact-message-error" class="text-red-600">الرسالة مطلوبة.</small>
+          <small id="contact-message-error" class="text-red-600 dark:text-red-400">الرسالة مطلوبة.</small>
         }
       </div>
 

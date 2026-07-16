@@ -11,8 +11,8 @@ import { RealisationCard } from '../accueil/sections/realisation-card';
   template: `
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <header class="mb-8 max-w-2xl">
-        <h1 class="text-3xl font-bold text-brand-900 md:text-4xl">أعمالنا</h1>
-        <p class="mt-3 text-base text-slate-600 md:text-lg">
+        <h1 class="text-3xl font-bold text-brand-900 md:text-4xl dark:text-brand-100">أعمالنا</h1>
+        <p class="mt-3 text-base text-slate-600 md:text-lg dark:text-slate-300">
           نماذج من المشاريع التي أنجزناها لعملائنا.
         </p>
       </header>
@@ -26,7 +26,7 @@ import { RealisationCard } from '../accueil/sections/realisation-card';
             [class]="
               selected() === null
                 ? 'border-brand-600 bg-brand-600 text-white'
-                : 'border-slate-300 text-slate-700 hover:bg-slate-100'
+                : 'border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800'
             "
             (click)="selected.set(null)"
           >
@@ -40,7 +40,7 @@ import { RealisationCard } from '../accueil/sections/realisation-card';
               [class]="
                 selected() === cat
                   ? 'border-brand-600 bg-brand-600 text-white'
-                  : 'border-slate-300 text-slate-700 hover:bg-slate-100'
+                  : 'border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800'
               "
               (click)="selected.set(cat)"
             >
@@ -62,7 +62,7 @@ import { RealisationCard } from '../accueil/sections/realisation-card';
             }
           </ul>
         } @else {
-          <p class="text-slate-600">لا توجد أعمال متاحة حاليًا.</p>
+          <p class="text-slate-600 dark:text-slate-400">لا توجد أعمال متاحة حاليًا.</p>
         }
       </div>
     </div>
