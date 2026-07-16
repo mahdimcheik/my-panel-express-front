@@ -8,7 +8,7 @@ import type { SiteContent } from './site-content.model';
  */
 export const SITE_CONTENT: SiteContent = {
   nomEntreprise: 'ماي بانل إكسبرس',
-  slogan: 'طباعة وتصنيع اللوحات الإشهارية بجودة احترافية',
+  slogan: 'طباعة وتصنيع اللوحات الإعلانية بجودة احترافية',
 
   nav: [
     { path: '/', label: 'الرئيسية', exact: true },
@@ -49,7 +49,7 @@ export const SITE_CONTENT: SiteContent = {
   contact: {
     adresse: 'مقابل مقابل الجامعة الاسلامية بعلبك',
     telephone: '76 803 075',
-    email: 'contact@mypanel.press',
+    email: 'mahdi.mcheik@hotmail.fr',
   },
 
   socials: [
@@ -90,12 +90,6 @@ export const SITE_CONTENT: SiteContent = {
       nom: 'اللافتات',
       description: 'لافتات محلات وواجهات مضيئة وغير مضيئة بتصاميم عصرية.',
       avantages: ['تصاميم عصرية', 'خيارات إضاءة', 'تركيب متكامل'],
-    },
-    {
-      id: 'fallback-signaletique',
-      nom: 'التشوير والدلالة',
-      description: 'أنظمة تشوير داخلية وخارجية واضحة تسهّل التنقل والتوجيه.',
-      avantages: ['وضوح تام', 'توحيد بصري', 'حلول داخلية وخارجية'],
     },
   ],
 
