@@ -4,7 +4,8 @@
       "PowerShell(curl.exe -k -s -o \"$env:TEMP\\\\swagger-probe.json\" -w \"%{http_code}\" https://localhost:7113/swagger/v1/swagger.json; \" \"; if \\(Test-Path \"$env:TEMP\\\\swagger-probe.json\"\\) { \"size: \" + \\(Get-Item \"$env:TEMP\\\\swagger-probe.json\"\\).Length })",
       "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\git\\\\MyPanelExpress\\\\my-panel-express\\\\openapi\" | Out-Null; curl.exe -k -s -o \"c:\\\\git\\\\MyPanelExpress\\\\my-panel-express\\\\openapi\\\\bonprof.swagger.json\" https://localhost:7113/swagger/v1/swagger.json; \"downloaded: \" + \\(Get-Item \"c:\\\\git\\\\MyPanelExpress\\\\my-panel-express\\\\openapi\\\\bonprof.swagger.json\"\\).Length + \" bytes\")",
       "PowerShell(cd c:\\\\git\\\\MyPanelExpress\\\\my-panel-express; Get-ChildItem -Recurse src\\\\app\\\\core\\\\api | Select-Object -ExpandProperty FullName | ForEach-Object { $_.Replace\\(\"c:\\\\git\\\\MyPanelExpress\\\\my-panel-express\\\\\",\"\"\\) } | Select-Object -First 20; \"---- total files: \" + \\(Get-ChildItem -Recurse -File src\\\\app\\\\core\\\\api\\).Count)",
-      "PowerShell(cd c:\\\\git\\\\MyPanelExpress\\\\my-panel-express; $s = Get-Content openapi\\\\bonprof.swagger.json -Raw | ConvertFrom-Json; \"title:   \" + $s.info.title; \"version: \" + $s.info.version; \"openapi: \" + $s.openapi; \"servers: \" + \\($s.servers | ForEach-Object { $_.url }\\); \"paths:\"; $s.paths.PSObject.Properties.Name | Select-Object -First 12)"
+      "PowerShell(cd c:\\\\git\\\\MyPanelExpress\\\\my-panel-express; $s = Get-Content openapi\\\\bonprof.swagger.json -Raw | ConvertFrom-Json; \"title:   \" + $s.info.title; \"version: \" + $s.info.version; \"openapi: \" + $s.openapi; \"servers: \" + \\($s.servers | ForEach-Object { $_.url }\\); \"paths:\"; $s.paths.PSObject.Properties.Name | Select-Object -First 12)",
+      "Bash(node -e \"const s=require\\('./package.json'\\).scripts; console.log\\(JSON.stringify\\(s,null,2\\)\\)\")"
     ]
   }
 }

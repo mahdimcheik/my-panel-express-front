@@ -37,14 +37,6 @@ function allImages(
     .map((i) => ({ url: i.url, objectKey: i.objectKey ?? null, alt }));
 }
 
-/** Picks the lowest-`ordre` image that actually carries a usable presigned URL. */
-function firstImage(
-  images: readonly ImageDetails[] | null | undefined,
-  alt: string,
-): ImageRef | null {
-  return allImages(images, alt)[0] ?? null;
-}
-
 /** Trims a .NET `"09:00:00"` time to `"09:00"`. */
 export function toHm(time: string | null | undefined): string | null {
   if (!time) {
@@ -85,13 +77,15 @@ export function toRealisationView(dto: RealisationDetails): RealisationView {
   const titre = dto.titre?.trim() ?? '';
   const categorie = dto.categorie?.trim() || null;
   const alt = titre ? (categorie ? `${titre} – ${categorie}` : titre) : '';
+  const images = allImages(dto.images, alt);
   return {
     id: dto.id ?? '',
     titre: titre || 'مشروع',
     description: dto.description?.trim() ?? '',
     categorie,
     date: dto.dateRealisation ?? null,
-    image: firstImage(dto.images, alt),
+    image: images[0] ?? null,
+    images,
   };
 }
 

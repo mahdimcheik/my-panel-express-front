@@ -1,18 +1,20 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { RemoteImage } from '../../../shared/ui/remote-image/remote-image';
+import { ImageCarousel } from '../../../shared/ui/image-carousel/image-carousel';
 import { formatArabicDate } from '../../../shared/util/format-date';
 import type { RealisationView } from '../../../core/data/view-models';
 
 @Component({
   selector: 'app-realisation-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RemoteImage],
+  imports: [ImageCarousel],
   template: `
     <article class="group overflow-hidden rounded-card bg-white shadow-card">
       <div class="aspect-square bg-slate-100">
-        @if (realisation().image; as image) {
-          <app-remote-image [image]="image" />
-        }
+        <app-image-carousel
+          [images]="realisation().images"
+          [label]="'صور ' + realisation().titre"
+          [enlargeable]="true"
+        />
       </div>
       <div class="p-4">
         <div class="flex items-center justify-between gap-2">

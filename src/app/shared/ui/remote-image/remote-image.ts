@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
   linkedSignal,
@@ -26,7 +27,7 @@ import type { ImageRef } from '../../../core/data/view-models';
         [loading]="priority() ? 'eager' : 'lazy'"
         [attr.fetchpriority]="priority() ? 'high' : null"
         decoding="async"
-        class="h-full w-full object-cover"
+        [class]="imgClass()"
         (error)="onError()"
       />
     } @else {
@@ -39,6 +40,17 @@ export class RemoteImage {
 
   readonly image = input.required<ImageRef>();
   readonly priority = input(false);
+  /**
+   * `'cover'` (default) fills and crops the host box — for fixed-ratio thumbnails.
+   * `'contain'` shows the whole image, bounded by the viewport — for the lightbox.
+   */
+  readonly fit = input<'cover' | 'contain'>('cover');
+
+  protected readonly imgClass = computed(() =>
+    this.fit() === 'contain'
+      ? 'mx-auto max-h-[85vh] max-w-[95vw] object-contain'
+      : 'h-full w-full object-cover',
+  );
 
   /** Resets to the source URL whenever the input image changes. */
   protected readonly src = linkedSignal<ImageRef, string | null>({

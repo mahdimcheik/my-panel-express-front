@@ -28,7 +28,10 @@ export interface RealisationView {
   readonly categorie: string | null;
   /** ISO date string, or `null` when absent. */
   readonly date: string | null;
+  /** The first usable image, or `null`. Kept for structured data / single-image contexts. */
   readonly image: ImageRef | null;
+  /** All usable images, lowest `ordre` first, for the card carousel / lightbox. */
+  readonly images: readonly ImageRef[];
 }
 
 export interface HoraireView {
