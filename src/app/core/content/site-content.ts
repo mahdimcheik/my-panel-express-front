@@ -19,7 +19,7 @@ export const SITE_CONTENT: SiteContent = {
   ],
 
   hero: {
-    titre: 'لوحات إشهارية ولافتات تصنع الفرق',
+    titre: 'لوحات إعلانية ولافتات تصنع الفرق',
     slogan: 'من التصميم إلى التركيب، نرافقك في كل خطوة لإبراز علامتك التجارية بأعلى معايير الجودة.',
     // No hero photo yet → the section falls back to the brand gradient.
     // Set to '/images/hero.webp' once the asset is added under public/.
@@ -31,7 +31,7 @@ export const SITE_CONTENT: SiteContent = {
   presentation: {
     titre: 'من نحن',
     paragraphes: [
-      'ماي بانل برس مؤسسة متخصصة في طباعة وتصنيع اللوحات الإشهارية واللافتات  .',
+      'ماي بانل برس مؤسسة متخصصة في طباعة وتصنيع اللوحات الإعلانية واللافتات  .',
       'نجمع بين الخبرة الحرفية والتجهيزات الحديثة لتقديم منتجات متينة وأنيقة تلبّي احتياجات المؤسسات والتجار والحرفيين.',
     ],
     stats: [
