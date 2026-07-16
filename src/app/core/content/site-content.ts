@@ -31,11 +31,11 @@ export const SITE_CONTENT: SiteContent = {
   presentation: {
     titre: 'من نحن',
     paragraphes: [
-      'ماي بانل إكسبرس مؤسسة متخصصة في طباعة وتصنيع اللوحات الإشهارية واللافتات والتشوير الداخلي والخارجي.',
+      'ماي بانل برس مؤسسة متخصصة في طباعة وتصنيع اللوحات الإشهارية واللافتات  .',
       'نجمع بين الخبرة الحرفية والتجهيزات الحديثة لتقديم منتجات متينة وأنيقة تلبّي احتياجات المؤسسات والتجار والحرفيين.',
     ],
     stats: [
-      { valeur: '+15', libelle: 'سنة خبرة' },
+      { valeur: '+13', libelle: 'سنة خبرة' },
       { valeur: '+500', libelle: 'مشروع منجز' },
       { valeur: '100%', libelle: 'رضا العملاء' },
     ],
@@ -47,9 +47,9 @@ export const SITE_CONTENT: SiteContent = {
   },
 
   contact: {
-    adresse: 'شارع الحرية، المنطقة الصناعية، تونس',
-    telephone: '+216 71 000 000',
-    email: 'contact@mypanelexpress.tn',
+    adresse: 'مقابل مقابل الجامعة الاسلامية بعلبك',
+    telephone: '76 803 075',
+    email: 'contact@mypanel.press',
   },
 
   socials: [

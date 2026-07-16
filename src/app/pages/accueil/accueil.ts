@@ -30,7 +30,7 @@ export class Accueil {
   constructor() {
     this.seo.setPage({
       description:
-        'ماي بانل إكسبرس — طباعة وتصنيع اللوحات الإشهارية واللافتات والتشوير بجودة احترافية وخدمة سريعة.',
+        'ماي بانل برس — طباعة وتصنيع اللوحات الإعلانية واللافتات والتشوير بجودة احترافية وخدمة سريعة.',
       path: '/',
     });
     this.structuredData.setLocalBusiness();
