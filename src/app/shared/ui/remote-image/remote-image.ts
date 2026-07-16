@@ -18,6 +18,9 @@ import type { ImageRef } from '../../../core/data/view-models';
 @Component({
   selector: 'app-remote-image',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // `contents` removes the host box from layout so the inner <img> sizes against the
+  // real parent (the card), letting `h-full w-full object-cover` fill and crop it.
+  host: { class: 'contents' },
   template: `
     @if (src(); as s) {
       <img
