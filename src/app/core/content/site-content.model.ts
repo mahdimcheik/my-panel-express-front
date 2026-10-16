@@ -12,6 +12,8 @@ export interface HeroContent {
   readonly slogan: string;
   /** Static image under `public/`, or `null` to fall back to the brand gradient. */
   readonly image: string | null;
+  /** Animated `.glb` model under `public/`, or `null` to hide it. */
+  readonly model: string | null;
   readonly ctaPrimary: NavLink;
   readonly ctaSecondary: NavLink;
 }

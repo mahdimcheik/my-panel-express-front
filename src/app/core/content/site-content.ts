@@ -24,6 +24,7 @@ export const SITE_CONTENT: SiteContent = {
     // No hero photo yet → the section falls back to the brand gradient.
     // Set to '/images/hero.webp' once the asset is added under public/.
     image: null,
+    model: '/assets/robot-ide.glb',
     ctaPrimary: { path: '/services', label: 'اكتشف خدماتنا', exact: false },
     ctaSecondary: { path: '/contact', label: 'اتصل بنا', exact: false },
   },

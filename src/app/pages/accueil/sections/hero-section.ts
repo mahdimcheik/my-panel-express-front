@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import type { HeroContent } from '../../../core/content/site-content.model';
+import { RobotModel } from '../../../shared/ui/model-viewer/robot-model';
 
 @Component({
   selector: 'app-hero-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink, RobotModel],
   template: `
     <section class="relative isolate flex min-h-[70svh] items-center overflow-hidden">
       @if (hero().image; as image) {
@@ -16,7 +17,9 @@ import type { HeroContent } from '../../../core/content/site-content.model';
       }
       <div class="absolute inset-0 bg-gradient-to-l from-brand-950/85 to-brand-900/45"></div>
 
-      <div class="relative mx-auto w-full max-w-6xl px-4 py-20 text-start sm:px-6">
+      <div
+        class="relative mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-20 text-start sm:px-6 md:grid-cols-2"
+      >
         <div class="max-w-2xl">
           <h1 class="text-3xl font-extrabold leading-tight text-white md:text-5xl">
             {{ hero().titre }}
@@ -37,6 +40,9 @@ import type { HeroContent } from '../../../core/content/site-content.model';
             </a>
           </div>
         </div>
+        @if (hero().model; as model) {
+          <app-robot-model [src]="model" class="h-72 w-full md:h-[28rem]" />
+        }
       </div>
     </section>
   `,
