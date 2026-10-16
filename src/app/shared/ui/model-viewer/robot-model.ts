@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
+  computed,
   input,
   signal,
 } from '@angular/core';
@@ -15,12 +16,18 @@ import {
   selector: 'app-robot-model',
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  host: { class: 'block', 'aria-hidden': 'true' },
+  host: {
+    class: 'block',
+    'aria-hidden': 'true',
+    '(pointerenter)': 'hovered.set(true)',
+    '(pointerleave)': 'hovered.set(false)',
+  },
   template: `
     @if (ready()) {
       <model-viewer
         [attr.src]="src()"
-        [attr.animation-name]="animation()"
+        [attr.animation-name]="currentAnimation()"
+        animation-crossfade-duration="400"
         [attr.autoplay]="reducedMotion() ? null : ''"
         alt=""
         camera-orbit="-30deg 80deg auto"
@@ -38,9 +45,14 @@ import {
 export class RobotModel {
   readonly src = input.required<string>();
   readonly animation = input('CharacterArmature|Idle');
+  readonly hoverAnimation = input('CharacterArmature|Run');
 
   protected readonly ready = signal(false);
   protected readonly reducedMotion = signal(false);
+  protected readonly hovered = signal(false);
+  protected readonly currentAnimation = computed(() =>
+    this.hovered() && !this.reducedMotion() ? this.hoverAnimation() : this.animation(),
+  );
 
   constructor() {
     afterNextRender(() => {
