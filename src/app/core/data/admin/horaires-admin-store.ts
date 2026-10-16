@@ -6,11 +6,13 @@ import { HorairesService } from '../../api/endpoints/horaires/horaires.service';
 import type { UpdateHoraire } from '../../api/models';
 import { sortHorairesAdmin, toHoraireAdminView } from '../admin-mappers';
 import type { HoraireAdminView } from '../admin-view-models';
+import { HorairesStore } from '../horaires-store';
 
 /** Back-office store for opening hours: the seven days plus a whole-grid save. */
 @Injectable({ providedIn: 'root' })
 export class HorairesAdminStore {
   private readonly api = inject(HorairesService);
+  private readonly publicStore = inject(HorairesStore);
 
   private readonly res = rxResource({
     stream: () => this.api.getHorairesAdmin(),
@@ -28,10 +30,16 @@ export class HorairesAdminStore {
     this.res.reload();
   }
 
+  /** After a mutation: reload the admin list and the public store(s) the site reads from. */
+  private refresh(): void {
+    this.res.reload();
+    this.publicStore.reload();
+  }
+
   /** Persists the whole grid in one transaction. */
   saveAll(days: readonly UpdateHoraire[]): Observable<void> {
     return this.api
       .putHoraires([...days])
-      .pipe(map(() => undefined), tap(() => this.reload()));
+      .pipe(map(() => undefined), tap(() => this.refresh()));
   }
 }

@@ -12,11 +12,13 @@ import {
   type ServiceFormValue,
 } from '../admin-mappers';
 import type { ServiceAdminView } from '../admin-view-models';
+import { ServicesStore } from '../services-store';
 
 /** Back-office store for services: the admin list plus every mutation. */
 @Injectable({ providedIn: 'root' })
 export class ServicesAdminStore {
   private readonly api = inject(ServicesService);
+  private readonly publicStore = inject(ServicesStore);
 
   private readonly res = rxResource({
     stream: () => this.api.getServicesAdmin(),
@@ -34,6 +36,12 @@ export class ServicesAdminStore {
     this.res.reload();
   }
 
+  /** After a mutation: reload the admin list and the public store(s) the site reads from. */
+  private refresh(): void {
+    this.res.reload();
+    this.publicStore.reload();
+  }
+
   getOne(id: string): Observable<ServiceAdminView> {
     return this.api.getServicesAdminId(id).pipe(map((r) => unwrap(r)));
   }
@@ -41,41 +49,41 @@ export class ServicesAdminStore {
   create(value: ServiceFormValue): Observable<ServiceAdminView> {
     return this.api
       .postServices(toCreateService(value))
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 
   update(id: string, value: ServiceFormValue): Observable<ServiceAdminView> {
     return this.api
       .putServices(toUpdateService(id, value))
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 
   remove(id: string): Observable<void> {
-    return this.api.deleteServicesId(id).pipe(map(() => undefined), tap(() => this.reload()));
+    return this.api.deleteServicesId(id).pipe(map(() => undefined), tap(() => this.refresh()));
   }
 
   setVisible(id: string, visible: boolean): Observable<ServiceAdminView> {
     return this.api
       .patchServicesIdVisibilite(id, { visible })
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 
   uploadImages(id: string, files: readonly File[]): Observable<ServiceAdminView> {
     return this.api
       .postServicesIdImages(id, { files: [...files] })
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 
   deleteImage(id: string, imageId: string): Observable<ServiceAdminView> {
     return this.api
       .deleteServicesIdImagesImageId(id, imageId)
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 
   reorderImages(id: string, imageIds: readonly string[]): Observable<ServiceAdminView> {
     return this.api
       .putServicesIdImagesOrdre(id, toImageOrdre(imageIds))
-      .pipe(map((r) => unwrap(r)), tap(() => this.reload()));
+      .pipe(map((r) => unwrap(r)), tap(() => this.refresh()));
   }
 }
 

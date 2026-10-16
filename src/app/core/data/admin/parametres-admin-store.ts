@@ -6,11 +6,13 @@ import { ParametresService } from '../../api/endpoints/parametres/parametres.ser
 import type { UpdateParametres } from '../../api/models';
 import { toParametresAdminView } from '../admin-mappers';
 import type { ParametresAdminView } from '../admin-view-models';
+import { ParametresStore } from '../parametres-store';
 
 /** Back-office store for the site parameters: the single settings row plus a save. */
 @Injectable({ providedIn: 'root' })
 export class ParametresAdminStore {
   private readonly api = inject(ParametresService);
+  private readonly publicStore = inject(ParametresStore);
 
   private readonly res = rxResource({
     stream: () => this.api.getParametres(),
@@ -28,11 +30,17 @@ export class ParametresAdminStore {
     this.res.reload();
   }
 
+  /** After a mutation: reload the admin list and the public store(s) the site reads from. */
+  private refresh(): void {
+    this.res.reload();
+    this.publicStore.reload();
+  }
+
   /** Persists the whole settings row. */
   save(payload: UpdateParametres): Observable<void> {
     return this.api.putParametres(payload).pipe(
       map(() => undefined),
-      tap(() => this.reload()),
+      tap(() => this.refresh()),
     );
   }
 }
