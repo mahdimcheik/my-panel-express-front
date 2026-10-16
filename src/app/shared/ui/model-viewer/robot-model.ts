@@ -19,7 +19,7 @@ import {
   host: {
     class: 'block',
     'aria-hidden': 'true',
-    '(pointerenter)': 'hovered.set(true)',
+    '(pointerenter)': 'startRun()',
     '(pointerleave)': 'hovered.set(false)',
   },
   template: `
@@ -46,6 +46,7 @@ export class RobotModel {
   readonly src = input.required<string>();
   readonly animation = input('CharacterArmature|Idle');
   readonly hoverAnimation = input('CharacterArmature|Run');
+  readonly hoverSound = input<string | null>('/laser.wav');
 
   protected readonly ready = signal(false);
   protected readonly reducedMotion = signal(false);
@@ -54,10 +55,29 @@ export class RobotModel {
     this.hovered() && !this.reducedMotion() ? this.hoverAnimation() : this.animation(),
   );
 
+  private audio: HTMLAudioElement | null = null;
+
   constructor() {
     afterNextRender(() => {
       this.reducedMotion.set(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       import('@google/model-viewer').then(() => this.ready.set(true));
     });
+  }
+
+  protected startRun(): void {
+    this.hovered.set(true);
+    if (this.reducedMotion()) return;
+    this.playSound();
+  }
+
+  private playSound(): void {
+    const src = this.hoverSound();
+    if (!src) return;
+    if (this.audio?.getAttribute('src') !== src) {
+      this.audio = new Audio(src);
+    }
+    this.audio.currentTime = 0;
+    // Rejected until the user has interacted with the page (browser autoplay policy).
+    this.audio.play().catch(() => undefined);
   }
 }
